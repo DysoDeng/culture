@@ -6,8 +6,11 @@ import (
 	"fmt"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
+	"gorm.io/gorm/logger"
 	"gorm.io/gorm/schema"
+	"io"
 	"log"
+	"os"
 	"time"
 )
 
@@ -33,6 +36,17 @@ func initDB() {
 			config.Config.DataBase.DataBase,
 		) + "?charset=utf8mb4&parseTime=True&loc=Asia%2FShanghai"
 
+	// db日志
+	dbLogFile, _ := os.Create("storage/logs/db.log")
+	dbLogger := logger.New(
+		log.New(io.MultiWriter(dbLogFile, os.Stdout), "\r\n", log.LstdFlags),
+		logger.Config{
+			SlowThreshold: 200 * time.Millisecond, // 慢查询时间
+			LogLevel:      logger.Warn,
+			Colorful:      false,
+		},
+	)
+
 	DB, err = gorm.Open(mysql.Open(dsn), &gorm.Config{
 		SkipDefaultTransaction:                   true, // 禁用默认事务
 		PrepareStmt:                              true, // 预编译sql
@@ -40,6 +54,7 @@ func initDB() {
 		NamingStrategy: schema.NamingStrategy{
 			SingularTable: true, // 禁止表名复数
 		},
+		Logger: dbLogger, // db日志
 	})
 	if err != nil {
 		panic("failed to connect database " + err.Error())

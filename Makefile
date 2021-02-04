@@ -1,5 +1,7 @@
+SHELL:=/bin/bash
+
 run:
-	go run ./cmd/main.go
+	source ./env.sh && go run ./cmd/main.go
 
 build:
 	cd cmd && go build -o cluture

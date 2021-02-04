@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 # 环境 release-生产环境 debug-开发环境 test-测试环境
 export env=release
 # 应用域名
