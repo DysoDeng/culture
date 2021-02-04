@@ -3,6 +3,5 @@
 /lastupdate.tmp
 nginx.conf
 .env
-env.dev.sh
-env.prod.sh
+env.sh
 docker-compose.yml
