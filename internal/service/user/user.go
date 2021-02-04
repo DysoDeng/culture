@@ -2,18 +2,18 @@ package user
 
 import (
 	"culture/internal/model"
+	"culture/internal/service"
 	"culture/internal/support/db"
-	"culture/internal/support/redis"
 	"culture/internal/util/api"
-	"errors"
-	"log"
 )
 
 type IUserService interface {
-	GetUserInfo(userId int64) (model.User, error)
+	service.Error
+	GetUserInfo(userId int64) model.User
 }
 
 type User struct {
+	service.BaseService
 }
 
 func NewUserService() IUserService {
@@ -21,22 +21,18 @@ func NewUserService() IUserService {
 	return userService
 }
 
-func (u User) GetUserInfo(userId int64) (model.User, error) {
+func (u *User) GetUserInfo(userId int64) model.User {
 	if userId <= 0 {
-		return model.User{}, errors.New(api.ErrorMissUid)
+		u.SetError("api.ErrorMissUid", api.CodeFail)
+		return model.User{}
 	}
 
 	var user model.User
 	db.DB.Debug().Where("id=?", userId).First(&user)
 	if user.ID <= 0 {
-		return model.User{}, errors.New("用户不存在")
+		u.SetError("用户不存在", api.CodeFail)
+		return model.User{}
 	}
 
-	cache := redis.Client()
-	b, err := cache.HMSet("redis_key", map[string]interface{}{"key": "value"}).Result()
-	log.Println(b, err)
-	d, _ := cache.HGetAll("redis_key").Result()
-	log.Println(d)
-
-	return user, nil
+	return user
 }

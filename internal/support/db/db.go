@@ -24,9 +24,14 @@ func initDB() {
 		}
 	}()
 
-	dsn = config.Config.DataBase.UserName + ":" + config.Config.DataBase.Password +
-		"@tcp(" + config.Config.DataBase.Host + ":" + config.Config.DataBase.Port + ")/"
-	dsn += config.Config.DataBase.DataBase + "?charset=utf8mb4&parseTime=True&loc=Asia%2FShanghai"
+	dsn = fmt.Sprintf(
+			"%s:%s@tcp(%s:%s)/%s",
+			config.Config.DataBase.UserName,
+			config.Config.DataBase.Password,
+			config.Config.DataBase.Host,
+			config.Config.DataBase.Port,
+			config.Config.DataBase.DataBase,
+		) + "?charset=utf8mb4&parseTime=True&loc=Asia%2FShanghai"
 
 	DB, err = gorm.Open(mysql.Open(dsn), &gorm.Config{
 		SkipDefaultTransaction:                   true, // 禁用默认事务

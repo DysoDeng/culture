@@ -15,9 +15,9 @@ func GetUser(ctx *gin.Context) {
 	}
 
 	user := userService.NewUserService()
-	u, err := user.GetUserInfo(userId)
-	if err != nil {
-		ctx.JSON(http.StatusOK, api.Fail(err.Error(), api.CodeFail))
+	u := user.GetUserInfo(userId)
+	if u.ID <= 0 {
+		ctx.JSON(http.StatusOK, api.Fail(user.Error(), user.ErrorCode()))
 		return
 	}
 

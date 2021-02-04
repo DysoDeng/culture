@@ -52,11 +52,11 @@ func TokenAuth(ctx *gin.Context) {
 
 		switch claims["user_type"].(string) {
 		case "user":
-			ctx.Set("user_type", claims["user_type"].(string))
+			ctx.Set("user_type", "user")
 			ctx.Set("user_id", int64(claims["user_id"].(float64)))
 			break
 		case "admin":
-			ctx.Set("user_type", claims["user_type"].(string))
+			ctx.Set("user_type", "admin")
 			ctx.Set("admin_id", int64(claims["admin_id"].(float64)))
 			break
 		default:
