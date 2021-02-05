@@ -4,6 +4,7 @@ import (
 	"culture/internal/config"
 	"database/sql/driver"
 	"fmt"
+	"github.com/goava/di"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 	"gorm.io/gorm/logger"
@@ -11,30 +12,48 @@ import (
 	"io"
 	"log"
 	"os"
+	"sync"
 	"time"
 )
 
-var DB *gorm.DB
+// container DB服务容器
+var container *di.Container
+
+var mutex sync.Mutex
+
+func init() {
+	di.SetTracer(&di.StdTracer{})
+	var err error
+	container, err = di.New(
+		di.Provide(initDB),
+	)
+	if err != nil {
+		panic(err)
+	}
+}
 
 // 初始化数据库连接
-func initDB() {
+func initDB() *gorm.DB {
 	var err error
 	var dsn string
+	var DB *gorm.DB
 
+	mutex.Lock()
 	defer func() {
+		mutex.Unlock()
 		if err := recover(); err != nil {
 			log.Println(err)
 		}
 	}()
 
 	dsn = fmt.Sprintf(
-			"%s:%s@tcp(%s:%s)/%s",
-			config.Config.DataBase.UserName,
-			config.Config.DataBase.Password,
-			config.Config.DataBase.Host,
-			config.Config.DataBase.Port,
-			config.Config.DataBase.DataBase,
-		) + "?charset=utf8mb4&parseTime=True&loc=Asia%2FShanghai"
+		"%s:%s@tcp(%s:%s)/%s",
+		config.Config.DataBase.UserName,
+		config.Config.DataBase.Password,
+		config.Config.DataBase.Host,
+		config.Config.DataBase.Port,
+		config.Config.DataBase.DataBase,
+	) + "?charset=utf8mb4&parseTime=True&loc=Asia%2FShanghai"
 
 	// db日志
 	dbLogFile, _ := os.Create("storage/logs/db.log")
@@ -66,6 +85,15 @@ func initDB() {
 	sqlDB.SetMaxIdleConns(config.Config.DataBase.MaxIdleConn) // 连接池最大连接数
 	sqlDB.SetMaxOpenConns(config.Config.DataBase.MaxOpenConn) // 连接池最大允许的空闲连接数，如果没有sql任务需要执行的连接数大于该值，超过的连接会被连接池关闭。
 	sqlDB.SetConnMaxLifetime(time.Hour)
+
+	return DB
+}
+
+// 获取数据库连接
+func DB() *gorm.DB {
+	var orm *gorm.DB
+	_ = container.Resolve(&orm)
+	return orm
 }
 
 // get full table name
@@ -140,8 +168,4 @@ func (t *JSONDate) Scan(v interface{}) error {
 		return nil
 	}
 	return fmt.Errorf("can not convert %v to timestamp", v)
-}
-
-func init() {
-	initDB()
 }

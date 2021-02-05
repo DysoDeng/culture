@@ -21,14 +21,14 @@ type Code struct {
 // 发送验证码
 func SendSmsCode(phoneNumber string, template string) error {
 	var smsConfig message.SmsConfig
-	db.DB.First(&smsConfig)
+	db.DB().First(&smsConfig)
 	if smsConfig.Id <= 0 {
 		log.Println("SendSmsCode: 短信未配置")
 		return errors.New("短信未配置")
 	}
 
 	var templateConfig message.SmsTemplate
-	db.DB.Where("template=?", template).First(&templateConfig)
+	db.DB().Where("template=?", template).First(&templateConfig)
 	if templateConfig.Id <= 0 {
 		return errors.New("短信模版不存在")
 	}
@@ -114,14 +114,14 @@ func ValidSmsCode(phoneNumber string, template string, smsCode string) error {
 // 发送普通短信消息
 func SendSmsMessage(phoneNumber string, template string, param map[string]string) error {
 	var smsConfig message.SmsConfig
-	db.DB.First(&smsConfig)
+	db.DB().First(&smsConfig)
 	if smsConfig.Id <= 0 {
 		log.Println("SendSmsCode: 短信未配置")
 		return errors.New("短信未配置")
 	}
 
 	var templateConfig message.SmsTemplate
-	db.DB.Where("template=?", template).First(&templateConfig)
+	db.DB().Where("template=?", template).First(&templateConfig)
 	if templateConfig.Id <= 0 {
 		return errors.New("短信模版不存在")
 	}

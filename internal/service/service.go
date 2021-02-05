@@ -1,6 +1,8 @@
 package service
 
-import "culture/internal/util/api"
+import (
+	"culture/internal/util/api"
+)
 
 // 服务错误接口
 type Error interface {

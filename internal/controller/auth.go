@@ -51,7 +51,7 @@ func Login(ctx *gin.Context) {
 	switch auth.UserType {
 	case "user":
 		var user model.User
-		db.DB.Debug().Where("telephone=?", auth.Username).First(&user)
+		db.DB().Debug().Where("telephone=?", auth.Username).First(&user)
 		if user.ID <= 0 {
 			ctx.JSON(http.StatusOK, api.Fail("用户名错误", api.CodeFail))
 			return
@@ -118,7 +118,7 @@ func RefreshToken(ctx *gin.Context) {
 		case "user":
 			userId := int64(claims["user_id"].(float64))
 			var user model.User
-			db.DB.Debug().Table(db.FullTableName("users")).
+			db.DB().Debug().Table(db.FullTableName("users")).
 				Where("id=?", userId).First(&user)
 			if user.ID <= 0 {
 				ctx.JSON(http.StatusOK, api.Fail("用户不存在", api.CodeFail))

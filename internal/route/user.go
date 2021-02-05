@@ -9,5 +9,6 @@ func userRouter(router *gin.RouterGroup) {
 	userRoute := router.Group("/user")
 	{
 		userRoute.POST("/info", controller.GetUser)
+		userRoute.POST("/finance", controller.GetFinance)
 	}
 }

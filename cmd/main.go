@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"culture/internal/config"
+	"culture/internal/provider"
 	"culture/internal/route"
 	"github.com/gin-gonic/gin"
 	"io"
@@ -24,6 +25,9 @@ func main() {
 	// 错误日志
 	errLogFile, _ := os.Create("storage/logs/gin.error.log")
 	gin.DefaultErrorWriter = io.MultiWriter(errLogFile, os.Stderr)
+
+	// 服务容器初始化
+	provider.ServiceProvider()
 
 	router := route.Router()
 
