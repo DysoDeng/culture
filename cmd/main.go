@@ -22,11 +22,11 @@ func main() {
 
 	port := "8080"
 
-	// 错误日志
+	// error logger
 	errLogFile, _ := os.Create("storage/logs/gin.error.log")
 	gin.DefaultErrorWriter = io.MultiWriter(errLogFile, os.Stderr)
 
-	// 服务容器初始化
+	// service container
 	provider.ServiceProvider()
 
 	router := route.Router()
