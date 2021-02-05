@@ -2,7 +2,7 @@ package middleware
 
 import (
 	"culture/internal/config"
-	"culture/internal/util/api"
+	"culture/internal/support/api"
 	"fmt"
 	"github.com/dgrijalva/jwt-go"
 	"github.com/gin-gonic/gin"

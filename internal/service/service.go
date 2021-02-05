@@ -1,7 +1,7 @@
 package service
 
 import (
-	"culture/internal/util/api"
+	"culture/internal/support/api"
 )
 
 // 服务错误接口

@@ -3,9 +3,9 @@ package controller
 import (
 	"culture/internal/config"
 	"culture/internal/model"
+	"culture/internal/support/api"
 	"culture/internal/support/db"
-	"culture/internal/util"
-	"culture/internal/util/api"
+	"culture/internal/support/util"
 	"fmt"
 	"github.com/dgrijalva/jwt-go"
 	"github.com/gin-gonic/gin"

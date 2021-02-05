@@ -4,7 +4,7 @@ import (
 	"culture/internal/model/message"
 	"culture/internal/support/db"
 	"culture/internal/support/redis"
-	"culture/internal/util"
+	"culture/internal/support/util"
 	"errors"
 	"log"
 	"strconv"

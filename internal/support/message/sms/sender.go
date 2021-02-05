@@ -33,7 +33,7 @@ func NewAliCloudSender(phoneNumber string, templateCode string, templateParam ma
 	}()
 
 	var smsConfig message.SmsConfig
-	db.DB.First(&smsConfig)
+	db.DB().First(&smsConfig)
 	if smsConfig.Id <= 0 {
 		log.Println("AliCloudSender: 未配置短信")
 		panic("AliCloudSender: 未配置短信")
