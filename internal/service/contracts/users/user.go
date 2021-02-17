@@ -5,12 +5,12 @@ import (
 	"culture/internal/service"
 )
 
+// UserServiceInterface 用户服务接口
 type UserServiceInterface interface {
-	service.Error
-	GetUserInfo(userId int64) model.User
+	GetUserInfo(userId int64) (model.User, service.Error)
 }
 
+// FinanceServiceInterface 用户财务接口
 type FinanceServiceInterface interface {
-	service.Error
-	GetUserFinance(userId int64)
+	GetUserFinance(userId int64) service.Error
 }

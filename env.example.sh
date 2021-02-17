@@ -31,5 +31,5 @@ export redis_key_prefix=
 export etcd_host=127.0.0.1
 # etcd连接端口
 export etcd_port=2379
-# api token key
-export token_key=
+# api token secret
+export token_secret=

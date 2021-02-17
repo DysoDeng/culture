@@ -1,8 +1,7 @@
 package logs
 
-import "culture/internal/service"
-
+// LogServiceInterface 日志服务接口
 type LogServiceInterface interface {
-	service.Error
+	// Writer 日志记录
 	Writer(message string)
 }

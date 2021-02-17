@@ -5,9 +5,21 @@ import (
 	"strconv"
 )
 
+// 应用环境
+type Env string
+
+const (
+	// 生产环境
+	Release Env = "release"
+	// 开发环境
+	Debug Env = "debug"
+	// 测试环境
+	Test Env = "test"
+)
+
 type AppConfig struct {
 	AppName   string
-	Env       string
+	Env       Env
 	TokenKey  string
 	AppDomain string
 	DataBase  DataBase
@@ -69,8 +81,8 @@ func initAppConfig() {
 
 	Config = &AppConfig{
 		AppName:   "culture",
-		Env:       os.Getenv("env"),
-		TokenKey:  os.Getenv("token_key"),
+		Env:       Env(os.Getenv("env")),
+		TokenKey:  os.Getenv("token_secret"),
 		AppDomain: os.Getenv("app_domain"),
 		DataBase: DataBase{
 			Connection:  "mysql",

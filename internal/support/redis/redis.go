@@ -14,7 +14,9 @@ var container *di.Container
 var mutex sync.Mutex
 
 func init() {
-	di.SetTracer(&di.StdTracer{})
+	if config.Config.Env != config.Release {
+		di.SetTracer(&di.StdTracer{})
+	}
 	var err error
 	container, err = di.New(
 		di.Provide(initRedis),

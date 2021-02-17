@@ -16,7 +16,7 @@ import (
 
 func main() {
 
-	if config.Config.Env == "release" {
+	if config.Config.Env == config.Release {
 		gin.SetMode(gin.ReleaseMode)
 	}
 
@@ -30,7 +30,7 @@ func main() {
 	provider.ServiceProvider()
 
 	server := http.Server{
-		Addr: ":"+port,
+		Addr:    ":" + port,
 		Handler: router.Router(),
 	}
 
@@ -48,7 +48,7 @@ func main() {
 	<-quit
 	log.Println("shutdown http server ...")
 
-	ctx, cancel := context.WithTimeout(context.Background(), 5 * time.Second)
+	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
 	if err := server.Shutdown(ctx); err != nil {
 		log.Fatal("http server shutdown error:", err)

@@ -2,45 +2,19 @@ package service
 
 import (
 	"culture/internal/support/api"
+	"github.com/goava/di"
 )
 
-// 服务错误接口
-type Error interface {
-	// Error 获取错误信息
-	Error() string
-
-	// ErrorCode 获取错误码
-	ErrorCode() api.Code
-
-	// SetError 设置错误信息
-	SetError(error string, code api.Code)
+// Error 服务错误码
+type Error struct {
+	Code  api.Code
+	Error string
 }
 
-// 基础服务
-type BaseService struct {
-	// 错误码
-	code api.Code
-	// 错误信息
-	error string
-}
+// Container 服务容器
+var Container *di.Container
 
-// Error 获取错误信息
-func (service *BaseService) Error() string {
-	return service.error
-}
-
-// ErrorCode 获取错误码
-func (service *BaseService) ErrorCode() api.Code {
-	return service.code
-}
-
-// SetError 设置错误信息
-// error 错误信息
-// code 错误码
-func (service *BaseService) SetError(error string, code api.Code) {
-	if code <= 0 {
-		code = api.CodeFail
-	}
-	service.error = error
-	service.code = code
+// Resolve 获取服务实例
+func Resolve(ptr di.Pointer, options ...di.ResolveOption) error {
+	return Container.Resolve(ptr, options...)
 }

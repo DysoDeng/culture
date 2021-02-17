@@ -1,6 +1,8 @@
 /.idea
 /go_build_main_go
 /lastupdate.tmp
+/cmd/cluture
+/cmd/cluture-linux
 nginx.conf
 .env
 env.sh

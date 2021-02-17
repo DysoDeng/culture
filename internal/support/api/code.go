@@ -14,7 +14,7 @@ const (
 	CodeMethodNotAllowed Code = 405 // 请求方法不允许
 
 	// 错误消息内容
-	ErrorBusy    string = "系统繁忙，请稍后再试"
-	ErrorMissUid string = "缺少用户ID"
+	ErrorBusy        string = "系统繁忙，请稍后再试"
+	ErrorMissUid     string = "缺少用户ID"
 	ErrorMissAdminId string = "缺少管理员ID"
 )

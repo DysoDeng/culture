@@ -1,22 +1,18 @@
 package logs
 
 import (
-	"culture/internal/service"
-	"culture/internal/service/contracts/users"
 	"log"
 )
 
-type LogService struct {
-	service.BaseService
-}
+// LogService 日志服务
+type LogService struct{}
 
+// NewLogService 初始化日志服务
 func NewLogService() *LogService {
 	return &LogService{}
 }
 
-func (l *LogService) Writer(message string) {
-	var userService users.UserServiceInterface
-	_ = service.Provider(&userService)
-	log.Println(userService.Error())
+// Writer 日志记录
+func (l LogService) Writer(message string) {
 	log.Println(message)
 }

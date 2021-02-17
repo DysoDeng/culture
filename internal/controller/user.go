@@ -16,10 +16,11 @@ func GetUser(ctx *gin.Context) {
 	}
 
 	var userService users.UserServiceInterface
-	_ = service.Provider(&userService)
-	u := userService.GetUserInfo(userId)
-	if u.ID <= 0 {
-		ctx.JSON(http.StatusOK, api.Fail(userService.Error(), userService.ErrorCode()))
+	_ = service.Resolve(&userService)
+
+	u, err := userService.GetUserInfo(userId)
+	if err.Code != api.CodeOk {
+		ctx.JSON(http.StatusOK, api.Fail(err.Error, err.Code))
 		return
 	}
 
@@ -34,7 +35,7 @@ func GetFinance(ctx *gin.Context) {
 	}
 
 	var financeService users.FinanceServiceInterface
-	_ = service.Provider(&financeService)
+	_ = service.Resolve(&financeService)
 	financeService.GetUserFinance(userId)
 
 	ctx.JSON(http.StatusOK, api.Success("1"))
