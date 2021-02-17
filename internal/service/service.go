@@ -6,8 +6,13 @@ import (
 
 // 服务错误接口
 type Error interface {
+	// Error 获取错误信息
 	Error() string
+
+	// ErrorCode 获取错误码
 	ErrorCode() api.Code
+
+	// SetError 设置错误信息
 	SetError(error string, code api.Code)
 }
 

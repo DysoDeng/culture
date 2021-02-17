@@ -41,7 +41,9 @@ func (u *UserService) GetUserInfo(userId int64) model.User {
 	return user
 }
 
-type FinanceService struct{}
+type FinanceService struct{
+	service.BaseService
+}
 
 func NewFinanceService() *FinanceService {
 	return &FinanceService{}

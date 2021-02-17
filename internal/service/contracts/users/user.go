@@ -11,5 +11,6 @@ type UserServiceInterface interface {
 }
 
 type FinanceServiceInterface interface {
+	service.Error
 	GetUserFinance(userId int64)
 }
