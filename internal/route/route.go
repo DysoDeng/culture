@@ -14,7 +14,7 @@ func Router() *gin.Engine {
 
 	api := router.Group("/v1/api")
 
-	// 授权路由
+	// 用户登录授权
 	authRouter(api)
 
 	// 鉴权路由
