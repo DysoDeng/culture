@@ -58,9 +58,11 @@ func initDB() *gorm.DB {
 	) + "?charset=utf8mb4&parseTime=True&loc=Asia%2FShanghai"
 
 	// db日志
-	dbLogFile, _ := os.Create("storage/logs/db.log")
+	logFilename := "storage/logs/db.log"
+	dbLogFile, _ := os.OpenFile(logFilename, os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0666)
+
 	dbLogger := logger.New(
-		log.New(io.MultiWriter(dbLogFile, os.Stdout), "\r\n", log.LstdFlags),
+		log.New(io.MultiWriter(os.Stdout, dbLogFile), "", log.LstdFlags),
 		logger.Config{
 			SlowThreshold: 200 * time.Millisecond, // 慢查询时间
 			LogLevel:      logger.Warn,

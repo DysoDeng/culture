@@ -1,7 +1,12 @@
 SHELL:=/bin/bash
 
+.PHONY: run lint build build-linux
+
 run:
 	source ./env.sh && go run ./cmd/main.go
+
+lint:
+	go fmt ./internal/... && go fmt ./cmd/main.go
 
 build:
 	cd cmd && go build -o cluture

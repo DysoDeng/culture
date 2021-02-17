@@ -23,7 +23,8 @@ func main() {
 	port := "8080"
 
 	// error logger
-	errLogFile, _ := os.Create("storage/logs/gin.error.log")
+	logFilename := "storage/logs/gin.error.log"
+	errLogFile, _ := os.OpenFile(logFilename, os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0666)
 	gin.DefaultErrorWriter = io.MultiWriter(errLogFile, os.Stderr)
 
 	// service container
