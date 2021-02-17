@@ -2,8 +2,10 @@ package provider
 
 import (
 	"culture/internal/service"
-	"culture/internal/service/logs"
-	"culture/internal/service/users"
+	"culture/internal/service/contracts/logs"
+	"culture/internal/service/contracts/users"
+	logsService "culture/internal/service/logs"
+	usersService "culture/internal/service/users"
 	"github.com/goava/di"
 )
 
@@ -12,9 +14,9 @@ func ServiceProvider() {
 	di.SetTracer(&di.StdTracer{})
 	var err error
 	service.Container, err = di.New(
-		di.Provide(users.NewUserService, di.As(new(users.UserServiceInterface))),
-		di.Provide(users.NewFinanceService, di.As(new(users.FinanceServiceInterface))),
-		di.Provide(logs.NewLogService, di.As(new(logs.LogServiceInterface))),
+		di.Provide(usersService.NewUserService, di.As(new(users.UserServiceInterface))),
+		di.Provide(usersService.NewFinanceService, di.As(new(users.FinanceServiceInterface))),
+		di.Provide(logsService.NewLogService, di.As(new(logs.LogServiceInterface))),
 	)
 	if err != nil {
 		panic(err)

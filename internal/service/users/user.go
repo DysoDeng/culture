@@ -3,17 +3,12 @@ package users
 import (
 	"culture/internal/model"
 	"culture/internal/service"
-	"culture/internal/service/logs"
+	"culture/internal/service/contracts/logs"
 	"culture/internal/support/api"
 	"culture/internal/support/db"
 	"culture/internal/support/redis"
 	"log"
 )
-
-type UserServiceInterface interface {
-	service.Error
-	GetUserInfo(userId int64) model.User
-}
 
 type UserService struct {
 	service.BaseService
@@ -25,7 +20,7 @@ func NewUserService() *UserService {
 
 func (u *UserService) GetUserInfo(userId int64) model.User {
 	if userId <= 0 {
-		u.SetError("api.ErrorMissUid", api.CodeFail)
+		u.SetError(api.ErrorMissUid, api.CodeFail)
 		return model.User{}
 	}
 
@@ -44,10 +39,6 @@ func (u *UserService) GetUserInfo(userId int64) model.User {
 	logService.Writer("aaaa")
 
 	return user
-}
-
-type FinanceServiceInterface interface {
-	GetUserFinance(userId int64)
 }
 
 type FinanceService struct{}

@@ -3,7 +3,7 @@ package api
 // api 响应数据结构
 type Response struct {
 	Code  Code        `json:"code"`
-	Data  interface{} `json:"data"`
+	Data  interface{} `json:"data,omitempty"`
 	Error string      `json:"error"`
 }
 

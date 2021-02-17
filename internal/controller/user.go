@@ -2,7 +2,7 @@ package controller
 
 import (
 	"culture/internal/service"
-	"culture/internal/service/users"
+	"culture/internal/service/contracts/users"
 	"culture/internal/support/api"
 	"github.com/gin-gonic/gin"
 	"net/http"

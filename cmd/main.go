@@ -4,7 +4,7 @@ import (
 	"context"
 	"culture/internal/config"
 	"culture/internal/provider"
-	"culture/internal/route"
+	"culture/internal/router"
 	"github.com/gin-gonic/gin"
 	"io"
 	"log"
@@ -29,11 +29,9 @@ func main() {
 	// service container
 	provider.ServiceProvider()
 
-	router := route.Router()
-
 	server := http.Server{
 		Addr: ":"+port,
-		Handler: router,
+		Handler: router.Router(),
 	}
 
 	log.Printf("listening and serving HTTP on: %s\n", port)
