@@ -2,8 +2,9 @@ SHELL:=/bin/bash
 
 .PHONY: run lint build build-linux
 
+# go get github.com/pilu/fresh 全局安装fresh命令,热更新代码
 run:
-	source ./env.sh && go run ./cmd/main.go
+	source ./env.sh && fresh -c dev-run.conf
 
 lint:
 	go fmt ./internal/... && go fmt ./cmd/main.go
