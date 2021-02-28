@@ -7,10 +7,10 @@ run:
 	source ./env.sh && fresh -c dev-run.conf
 
 lint:
-	go fmt ./internal/... && go fmt ./cmd/main.go
+	go fmt ./internal/... && go fmt ./main.go
 
 build:
-	cd cmd && go build -o cluture
+	go build -o cluture
 
 build-linux:
-	cd cmd && CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o cluture-linux
+	CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o cluture-linux

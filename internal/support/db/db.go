@@ -3,6 +3,7 @@ package db
 import (
 	"culture/internal/config"
 	"database/sql/driver"
+	"encoding/json"
 	"fmt"
 	"github.com/goava/di"
 	"gorm.io/driver/mysql"
@@ -58,7 +59,7 @@ func initDB() *gorm.DB {
 	) + "?charset=utf8mb4&parseTime=True&loc=Asia%2FShanghai"
 
 	// db日志
-	logFilename := "storage/logs/db.log"
+	logFilename := config.LogPath + "/db.log"
 	dbLogFile, _ := os.OpenFile(logFilename, os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0666)
 
 	dbLogger := logger.New(
@@ -86,9 +87,11 @@ func initDB() *gorm.DB {
 	sqlDB, _ := DB.DB()
 
 	// 连接池
-	sqlDB.SetMaxIdleConns(config.Config.DataBase.MaxIdleConn) // 连接池最大连接数
-	sqlDB.SetMaxOpenConns(config.Config.DataBase.MaxOpenConn) // 连接池最大允许的空闲连接数，如果没有sql任务需要执行的连接数大于该值，超过的连接会被连接池关闭。
-	sqlDB.SetConnMaxLifetime(time.Hour)
+	sqlDB.SetMaxIdleConns(config.Config.DataBase.MaxIdleConn)                                     // 连接池最大连接数
+	sqlDB.SetMaxOpenConns(config.Config.DataBase.MaxOpenConn)                                     // 连接池最大允许的空闲连接数，如果没有sql任务需要执行的连接数大于该值，超过的连接会被连接池关闭。
+	sqlDB.SetConnMaxLifetime(time.Second * time.Duration(config.Config.DataBase.ConnMaxLifetime)) // 连接空闲超时
+
+	sqlDB.Stats()
 
 	return DB
 }
@@ -97,6 +100,9 @@ func initDB() *gorm.DB {
 func DB() *gorm.DB {
 	var orm *gorm.DB
 	_ = container.Resolve(&orm)
+	sqlDB, _ := orm.DB()
+	data, _ := json.Marshal(sqlDB.Stats()) //获得当前的SQL配置情况
+	fmt.Println(string(data))
 	return orm
 }
 

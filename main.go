@@ -23,7 +23,7 @@ func main() {
 	port := "8080"
 
 	// error logger
-	logFilename := "storage/logs/gin.error.log"
+	logFilename := config.LogPath + "/gin.error.log"
 	errLogFile, _ := os.OpenFile(logFilename, os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0666)
 	gin.DefaultErrorWriter = io.MultiWriter(errLogFile, os.Stderr)
 

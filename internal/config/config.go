@@ -17,6 +17,12 @@ const (
 	Test Env = "test"
 )
 
+const (
+	VarPath  string = "var"
+	LogPath         = VarPath + "/logs"
+	TempPath        = VarPath + "/tmp"
+)
+
 type AppConfig struct {
 	AppName   string
 	Env       Env
@@ -29,17 +35,21 @@ type AppConfig struct {
 
 // 数据库配置
 type DataBase struct {
+	// 数据库类型
 	Connection string
 	Host       string
 	Port       string
 	DataBase   string
 	UserName   string
 	Password   string
-	Prefix     string
+	// 数据表前缀
+	Prefix string
 	// 数据库连接池中最大闲置连接数
 	MaxIdleConn int
 	// 数据库最大连接数量
 	MaxOpenConn int
+	// 数据库连接空闲超时时间
+	ConnMaxLifetime int
 }
 
 // redis配置
@@ -61,9 +71,14 @@ var Config *AppConfig
 // 初始化配置
 func initAppConfig() {
 
-	maxIdleConnString := os.Getenv("mysql_max_idle_conn")
-	maxOpenConnString := os.Getenv("mysql_max_open_conn")
+	dbConnection := os.Getenv("db_connection")
+	maxIdleConnString := os.Getenv("db_max_idle_conn")
+	maxOpenConnString := os.Getenv("db_max_open_conn")
+	connMaxLifetimeString := os.Getenv("db_conn_max_lifetime")
 
+	if dbConnection == "" {
+		dbConnection = "mysql"
+	}
 	maxIdleConn, err := strconv.Atoi(maxIdleConnString)
 	if err != nil {
 		maxIdleConn = 1
@@ -72,6 +87,10 @@ func initAppConfig() {
 	if err != nil {
 		maxOpenConn = 5
 	}
+	connMaxLifetime, err := strconv.Atoi(connMaxLifetimeString)
+	if err != nil {
+		connMaxLifetime = 300
+	}
 
 	redisDatabaseString := os.Getenv("redis_database")
 	redisDatabase, err := strconv.Atoi(redisDatabaseString)
@@ -79,21 +98,29 @@ func initAppConfig() {
 		redisDatabase = 0
 	}
 
+	var env Env
+	if e := os.Getenv("env"); e == "" {
+		env = Debug
+	} else {
+		env = Env(e)
+	}
+
 	Config = &AppConfig{
 		AppName:   "culture",
-		Env:       Env(os.Getenv("env")),
+		Env:       env,
 		TokenKey:  os.Getenv("token_secret"),
 		AppDomain: os.Getenv("app_domain"),
 		DataBase: DataBase{
-			Connection:  "mysql",
-			Host:        os.Getenv("mysql_host"),
-			Port:        os.Getenv("mysql_port"),
-			DataBase:    os.Getenv("mysql_database"),
-			UserName:    os.Getenv("mysql_user"),
-			Password:    os.Getenv("mysql_password"),
-			Prefix:      os.Getenv("mysql_table_prefix"),
-			MaxIdleConn: maxIdleConn,
-			MaxOpenConn: maxOpenConn,
+			Connection:      dbConnection,
+			Host:            os.Getenv("db_host"),
+			Port:            os.Getenv("db_port"),
+			DataBase:        os.Getenv("db_database"),
+			UserName:        os.Getenv("db_user"),
+			Password:        os.Getenv("db_password"),
+			Prefix:          os.Getenv("db_table_prefix"),
+			MaxIdleConn:     maxIdleConn,
+			MaxOpenConn:     maxOpenConn,
+			ConnMaxLifetime: connMaxLifetime,
 		},
 		Redis: Redis{
 			Host:      os.Getenv("redis_host"),
