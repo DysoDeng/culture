@@ -6,6 +6,7 @@ import (
 	"culture/internal/service/contracts/logs"
 	"culture/internal/support/api"
 	"culture/internal/support/db"
+	"culture/internal/support/redis"
 	"log"
 )
 
@@ -29,8 +30,8 @@ func (u *UserService) GetUserInfo(userId int64) (model.User, service.Error) {
 		return model.User{}, service.Error{Code: api.CodeFail, Error: "用户不存在"}
 	}
 
-	//res, _ := redis.Client().HGetAll("redis_key").Result()
-	//log.Println(res)
+	res, _ := redis.Client().HGetAll("redis_key").Result()
+	log.Println(res)
 
 	var logService logs.LogServiceInterface
 	_ = service.Resolve(&logService)

@@ -37,7 +37,7 @@ func initRedis() *redis.Client {
 		Addr:         addr,
 		Password:     config.Config.Redis.Password,
 		DB:           config.Config.Redis.DataBase,
-		MinIdleConns: 2,
+		MinIdleConns: 10,
 	})
 
 	pong, err := redisPoolClient.Ping().Result()

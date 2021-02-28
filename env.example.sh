@@ -18,9 +18,9 @@ export db_password=
 # 数据表前缀
 export db_table_prefix=
 # 数据库连接池中最大闲置连接数
-export db_max_idle_conn=200
+export db_max_idle_conn=50
 # 数据库最大连接数量
-export db_max_open_conn=50
+export db_max_open_conn=200
 # 数据库连接空闲超时时间(秒)
 export db_conn_max_lifetime=300
 # redis连接地址
