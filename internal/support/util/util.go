@@ -5,6 +5,7 @@ import (
 	"golang.org/x/crypto/bcrypt"
 	"log"
 	"math/rand"
+	"net"
 	"strings"
 	"time"
 )
@@ -16,7 +17,7 @@ const (
 	letterIdxMax  = 63 / letterIdxBits
 )
 
-// 生成密码
+// GeneratePassword 生成密码
 func GeneratePassword(password []byte) string {
 	hash, err := bcrypt.GenerateFromPassword(password, bcrypt.MinCost)
 	if err != nil {
@@ -26,7 +27,7 @@ func GeneratePassword(password []byte) string {
 	return string(hash)
 }
 
-// 验证密码
+// ComparePassword 验证密码
 func ComparePassword(hashedPassword string, plainPassword string) bool {
 	byteHashByte := []byte(hashedPassword)
 	plainPasswordByte := []byte(plainPassword)
@@ -39,7 +40,7 @@ func ComparePassword(hashedPassword string, plainPassword string) bool {
 	return true
 }
 
-// 生成指定长度数字字符串
+// GenValidateCode 生成指定长度数字字符串
 func GenValidateCode(width int) string {
 	numeric := [10]byte{0, 1, 2, 3, 4, 5, 6, 7, 8, 9}
 	r := len(numeric)
@@ -52,7 +53,7 @@ func GenValidateCode(width int) string {
 	return sb.String()
 }
 
-// 生成随机字符串
+// RandStringBytesMask 生成随机字符串
 func RandStringBytesMask(length int) string {
 
 	str := make([]byte, length)
@@ -72,4 +73,17 @@ func RandStringBytesMask(length int) string {
 	}
 
 	return string(str)
+}
+
+// GetLocalIp 获取本机IP地址
+func GetLocalIp() string {
+	conn, err := net.Dial("udp", "8.8.8.8:80")
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer conn.Close()
+
+	localAddr := conn.LocalAddr().(*net.UDPAddr)
+
+	return localAddr.IP.String()
 }
