@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+package proto;
+
+message Request {
+    int64 uid = 1;
+}
+
+message Response {
+    int64 id = 1;
+    string username = 2;
+    string nickname = 3;
+}
+
+service Demo {
+    rpc UserInfo(Request) returns (Response);
+}

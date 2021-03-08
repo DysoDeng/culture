@@ -17,6 +17,9 @@ const (
 	Test Env = "test"
 )
 
+// rpc前缀
+const RpcPrefix = "bj/rpc"
+
 const (
 	VarPath  string = "var"
 	LogPath         = VarPath + "/logs"

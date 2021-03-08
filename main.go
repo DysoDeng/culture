@@ -5,7 +5,13 @@ import (
 	"culture/internal/config"
 	"culture/internal/provider"
 	"culture/internal/router"
+	"culture/internal/support/util"
+	"culture/rpc/proto"
+	"culture/rpc/service"
+	"github.com/dysodeng/drpc"
+	"github.com/dysodeng/drpc/register"
 	"github.com/gin-gonic/gin"
+	"github.com/rcrowley/go-metrics"
 	"io"
 	"log"
 	"net/http"
@@ -20,7 +26,8 @@ func main() {
 		gin.SetMode(gin.ReleaseMode)
 	}
 
-	port := "8080"
+	httpPort := "8080"
+	rpcPort := "9000"
 
 	// error logger
 	logFilename := config.LogPath + "/gin.error.log"
@@ -30,12 +37,35 @@ func main() {
 	// service container
 	provider.ServiceProvider()
 
+	ip := util.GetLocalIp()
+
+	// grpc server
+	rpcServer := drpc.NewServer(&register.EtcdV3Register{
+		ServiceAddress: ip + ":" + rpcPort,
+		EtcdServers:    []string{config.Config.Etcd.Addr + ":" + config.Config.Etcd.Port},
+		BasePath:       config.RpcPrefix,
+		Lease:          5,
+		Metrics:        metrics.NewMeter(),
+	})
+	defer func() {
+		if err := recover(); err != nil {
+			_ = rpcServer.Stop()
+		}
+	}()
+
+	_ = rpcServer.Register(&service.DemoService{}, proto.RegisterDemoServer, "")
+
+	go func() {
+		rpcServer.Serve(":" + rpcPort)
+	}()
+
+	// http server
 	server := http.Server{
-		Addr:    ":" + port,
+		Addr:    ":" + httpPort,
 		Handler: router.Router(),
 	}
 
-	log.Printf("listening and serving HTTP on: %s\n", port)
+	log.Printf("listening and serving HTTP on: :%s\n", httpPort)
 
 	go func() {
 		if err := server.ListenAndServe(); err != nil && err != http.ErrServerClosed {
@@ -55,4 +85,6 @@ func main() {
 		log.Fatal("http server shutdown error:", err)
 	}
 	log.Println("http server stop")
+	log.Println("shutdown rpc server ...")
+	_ = rpcServer.Stop()
 }
