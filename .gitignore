@@ -1,6 +1,7 @@
 /.idea
 /go_build_main_go
 /lastupdate.tmp
+/client
 cluture
 cluture-linux
 nginx.conf
