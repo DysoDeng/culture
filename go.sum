@@ -19,6 +19,8 @@ github.com/dgrijalva/jwt-go v3.2.0+incompatible h1:7qlOGliEKZXTDg6OTjfoBKDXWrumC
 github.com/dgrijalva/jwt-go v3.2.0+incompatible/go.mod h1:E3ru+11k8xSBh+hMPgOLZmtrrCbhqsmaPHjLKYnJCaQ=
 github.com/dysodeng/drpc v0.0.3 h1:qVmCEFB920UkTuMD50Y+1lD3YE49Whp2Es/Od3qw/Hs=
 github.com/dysodeng/drpc v0.0.3/go.mod h1:YBT8pW4mEoPKhqMG17BhSvcQfH0XLG5XSStIkKt5m4E=
+github.com/dysodeng/drpc v0.0.4 h1:8SFm4rt9N6J6monCf6QkXXZHpB8bRG4dsayQ0aZ6hnQ=
+github.com/dysodeng/drpc v0.0.4/go.mod h1:YBT8pW4mEoPKhqMG17BhSvcQfH0XLG5XSStIkKt5m4E=
 github.com/envoyproxy/go-control-plane v0.9.1-0.20191026205805-5f8ba28d4473/go.mod h1:YTl/9mNaCwkRvm6d1a2C3ymFceY/DCBVvsKhRF0iEA4=
 github.com/envoyproxy/protoc-gen-validate v0.1.0/go.mod h1:iSmxcyjqTsJpI2R4NaDN7+kN2VEUnK/pcBlmesArF7c=
 github.com/fsnotify/fsnotify v1.4.7 h1:IXs+QLmnXW2CcXuY+8Mzv/fWEsPGWxqefPtCP5CnV9I=

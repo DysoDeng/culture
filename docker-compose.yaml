@@ -30,9 +30,9 @@ services:
       - etcd_port=${etcd_port}
       - token_secret=${token_secret}
     networks:
-      - culture
+      - culture-cloud
 
 networks:
-  culture:
+  culture-cloud:
     external:
-      name: culture_network
+      name: culture_cloud_network
