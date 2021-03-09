@@ -1,0 +1,38 @@
+version: '3.5'
+
+services:
+  culture_base:
+    image: culture_base
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    env_file:
+      - .env
+    ports:
+      - "8080:8080"
+    environment:
+      - env=debug
+      - app_domain=${app_domain}
+      - db_connection=mysql
+      - db_host=${db_host}
+      - db_port=${db_port}
+      - db_database=${db_database}
+      - db_user=${db_user}
+      - db_password=${db_password}
+      - db_table_prefix=${db_table_prefix}
+      - db_max_idle_conn=${db_max_idle_conn}
+      - db_max_open_conn=${db_max_open_conn}
+      - db_conn_max_lifetime=${db_conn_max_lifetime}
+      - redis_host=${redis_host}
+      - redis_port=${redis_port}
+      - redis_key_prefix=${redis_key_prefix}
+      - etcd_addr=${etcd_host}
+      - etcd_port=${etcd_port}
+      - token_secret=${token_secret}
+    networks:
+      - culture
+
+networks:
+  culture:
+    external:
+      name: culture_network

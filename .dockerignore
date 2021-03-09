@@ -1,0 +1,14 @@
+/.idea
+/.git
+culture
+culture-linux
+env.*
+.env
+.env.*
+README.md
+Dockerfile
+docker-compose.*
+.dockerignore
+dev-run.conf
+/var/logs/*
+/var/tmp/*
