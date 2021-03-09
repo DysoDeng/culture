@@ -18,7 +18,7 @@ const (
 )
 
 // rpc前缀
-const RpcPrefix = "bj/rpc"
+const RpcPrefix = "culture/cloud/grpc"
 
 const (
 	VarPath  string = "var"
