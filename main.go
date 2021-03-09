@@ -46,6 +46,7 @@ func main() {
 		BasePath:       config.RpcPrefix,
 		Lease:          5,
 		Metrics:        metrics.NewMeter(),
+		ShowMetricsLog: true,
 	})
 	defer func() {
 		if err := recover(); err != nil {
