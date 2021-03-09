@@ -1,11 +1,11 @@
 package users
 
 import (
-	"culture/internal/model"
-	"culture/internal/service"
-	"culture/internal/service/contracts/logs"
-	"culture/internal/support/api"
-	"culture/internal/support/db"
+	"culture/cloud/base/internal/model"
+	"culture/cloud/base/internal/service"
+	"culture/cloud/base/internal/service/contracts/logs"
+	"culture/cloud/base/internal/support/api"
+	"culture/cloud/base/internal/support/db"
 	"log"
 )
 

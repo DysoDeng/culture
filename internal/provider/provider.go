@@ -1,12 +1,12 @@
 package provider
 
 import (
-	"culture/internal/config"
-	"culture/internal/service"
-	"culture/internal/service/contracts/logs"
-	"culture/internal/service/contracts/users"
-	logsService "culture/internal/service/logs"
-	usersService "culture/internal/service/users"
+	"culture/cloud/base/internal/config"
+	"culture/cloud/base/internal/service"
+	"culture/cloud/base/internal/service/contracts/logs"
+	"culture/cloud/base/internal/service/contracts/users"
+	logsService "culture/cloud/base/internal/service/logs"
+	usersService "culture/cloud/base/internal/service/users"
 	"fmt"
 	"github.com/goava/di"
 	"github.com/pkg/errors"

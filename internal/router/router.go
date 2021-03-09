@@ -1,7 +1,7 @@
 package router
 
 import (
-	"culture/internal/middleware"
+	"culture/cloud/base/internal/middleware"
 	"github.com/gin-gonic/gin"
 )
 

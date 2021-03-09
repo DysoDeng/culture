@@ -1,7 +1,7 @@
 package db
 
 import (
-	"culture/internal/config"
+	"culture/cloud/base/internal/config"
 	"database/sql/driver"
 	"encoding/json"
 	"fmt"

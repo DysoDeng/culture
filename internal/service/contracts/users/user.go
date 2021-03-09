@@ -1,8 +1,8 @@
 package users
 
 import (
-	"culture/internal/model"
-	"culture/internal/service"
+	"culture/cloud/base/internal/model"
+	"culture/cloud/base/internal/service"
 )
 
 // UserServiceInterface 用户服务接口

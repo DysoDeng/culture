@@ -1,8 +1,8 @@
 package middleware
 
 import (
-	"culture/internal/config"
-	"culture/internal/support/api"
+	"culture/cloud/base/internal/config"
+	"culture/cloud/base/internal/support/api"
 	"fmt"
 	"github.com/dgrijalva/jwt-go"
 	"github.com/gin-gonic/gin"

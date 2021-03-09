@@ -1,10 +1,10 @@
 package sms
 
 import (
-	"culture/internal/model/message"
-	"culture/internal/support/db"
-	"culture/internal/support/redis"
-	"culture/internal/support/util"
+	"culture/cloud/base/internal/model/message"
+	"culture/cloud/base/internal/support/db"
+	"culture/cloud/base/internal/support/redis"
+	"culture/cloud/base/internal/support/util"
 	"errors"
 	"log"
 	"strconv"

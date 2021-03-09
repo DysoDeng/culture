@@ -1,4 +1,4 @@
-module culture
+module culture/cloud/base
 
 go 1.13
 

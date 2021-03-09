@@ -1,7 +1,7 @@
 package redis
 
 import (
-	"culture/internal/config"
+	"culture/cloud/base/internal/config"
 	"fmt"
 	"github.com/go-redis/redis/v7"
 	"github.com/goava/di"

@@ -1,8 +1,8 @@
 package sms
 
 import (
-	"culture/internal/model/message"
-	"culture/internal/support/db"
+	"culture/cloud/base/internal/model/message"
+	"culture/cloud/base/internal/support/db"
 	"encoding/json"
 	"errors"
 	"github.com/aliyun/alibaba-cloud-sdk-go/sdk"

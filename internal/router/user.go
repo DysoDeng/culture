@@ -1,7 +1,7 @@
 package router
 
 import (
-	"culture/internal/controller"
+	"culture/cloud/base/internal/controller"
 	"github.com/gin-gonic/gin"
 )
 

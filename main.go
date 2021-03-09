@@ -2,12 +2,12 @@ package main
 
 import (
 	"context"
-	"culture/internal/config"
-	"culture/internal/provider"
-	"culture/internal/router"
-	"culture/internal/support/util"
-	"culture/rpc/proto"
-	"culture/rpc/service"
+	"culture/cloud/base/internal/config"
+	"culture/cloud/base/internal/provider"
+	"culture/cloud/base/internal/router"
+	"culture/cloud/base/internal/support/util"
+	"culture/cloud/base/rpc/proto"
+	"culture/cloud/base/rpc/service"
 	"github.com/dysodeng/drpc"
 	"github.com/dysodeng/drpc/register"
 	"github.com/gin-gonic/gin"

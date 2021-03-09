@@ -1,9 +1,9 @@
 package controller
 
 import (
-	"culture/internal/service"
-	"culture/internal/service/contracts/users"
-	"culture/internal/support/api"
+	"culture/cloud/base/internal/service"
+	"culture/cloud/base/internal/service/contracts/users"
+	"culture/cloud/base/internal/support/api"
 	"github.com/gin-gonic/gin"
 	"net/http"
 )

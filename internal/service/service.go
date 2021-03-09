@@ -1,7 +1,7 @@
 package service
 
 import (
-	"culture/internal/support/api"
+	"culture/cloud/base/internal/support/api"
 	"github.com/goava/di"
 )
 

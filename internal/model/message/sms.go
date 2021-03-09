@@ -1,8 +1,8 @@
 package message
 
 import (
-	"culture/internal/config"
-	"culture/internal/support/db"
+	"culture/cloud/base/internal/config"
+	"culture/cloud/base/internal/support/db"
 )
 
 // 短信配置

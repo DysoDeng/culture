@@ -1,11 +1,11 @@
 package controller
 
 import (
-	"culture/internal/config"
-	"culture/internal/model"
-	"culture/internal/support/api"
-	"culture/internal/support/db"
-	"culture/internal/support/util"
+	"culture/cloud/base/internal/config"
+	"culture/cloud/base/internal/model"
+	"culture/cloud/base/internal/support/api"
+	"culture/cloud/base/internal/support/db"
+	"culture/cloud/base/internal/support/util"
 	"fmt"
 	"github.com/dgrijalva/jwt-go"
 	"github.com/gin-gonic/gin"

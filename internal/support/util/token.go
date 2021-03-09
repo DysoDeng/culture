@@ -1,7 +1,7 @@
 package util
 
 import (
-	"culture/internal/config"
+	"culture/cloud/base/internal/config"
 	"encoding/json"
 	"errors"
 	"github.com/dgrijalva/jwt-go"
