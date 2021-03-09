@@ -12,10 +12,20 @@ RUN export GOPROXY=https://goproxy.cn && go mod download
 
 ADD . /app
 
-RUN chmod a+w /app/var
-
 RUN CGO_ENABLED=0 go build -o culture
+
+FROM alpine:latest
+
+COPY --from=0 /app/culture /app/culture
+COPY --from=0 /app/var /app/var
+COPY --from=0 /usr/share/zoneinfo/Asia/Shanghai /usr/share/zoneinfo/Asia/Shanghai
+COPY --from=0 /etc/timezone /etc/timezone
+
+WORKDIR /app
+
+RUN chmod -R a+w /app/var
 
 EXPOSE 9000
 EXPOSE 8080
+
 CMD /app/culture
