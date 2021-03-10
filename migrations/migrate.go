@@ -15,19 +15,17 @@ var migration = []*gormigrate.Migration{
 	{
 		ID: "202103101456",
 		Migrate: func(g *gorm.DB) error {
-			return g.AutoMigrate(&message.SmsConfig{})
+			err := g.AutoMigrate(&message.SmsConfig{}, &message.SmsTemplate{})
+			if err != nil {
+				return err
+			}
+
+			g.Exec("ALTER TABLE sms_config COMMENT=\"短信提供商配置表\"")
+			g.Exec("ALTER TABLE sms_template COMMENT=\"短信模版配置表\"")
+			return nil
 		},
 		Rollback: func(g *gorm.DB) error {
 			return g.Migrator().DropTable(&message.SmsConfig{})
-		},
-	},
-	{
-		ID: "202103101458",
-		Migrate: func(g *gorm.DB) error {
-			return g.AutoMigrate(&message.SmsTemplate{})
-		},
-		Rollback: func(g *gorm.DB) error {
-			return g.Migrator().DropTable(&message.SmsTemplate{})
 		},
 	},
 	{
@@ -37,15 +35,6 @@ var migration = []*gormigrate.Migration{
 		},
 		Rollback: func(g *gorm.DB) error {
 			return g.Migrator().DropTable(&model.User{})
-		},
-	},
-	{
-		ID: "202103101559",
-		Migrate: func(g *gorm.DB) error {
-			return g.Migrator().AddColumn(&model.User{}, "nickname")
-		},
-		Rollback: func(g *gorm.DB) error {
-			return g.Migrator().DropColumn(&model.User{}, "nickname")
 		},
 	},
 }
