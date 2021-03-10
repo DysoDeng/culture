@@ -7,10 +7,11 @@ import (
 
 // 用户
 type User struct {
-	ID        int64       `gorm:"primary_key;AUTO_INCREMENT" json:"id"`
-	Telephone string      `gorm:"type:varchar(150);unique_index" json:"telephone"`
-	RealName  string      `gorm:"default null" json:"real_name"`
-	CreatedAt db.JSONTime `gorm:"not null" json:"created_at"`
+	ID        uint64    `gorm:"primary_key;autoIncrement" json:"id"`
+	Telephone string    `gorm:"type:varchar(150);uniqueIndex;not null;default:'';comment:手机号" json:"telephone"`
+	RealName  string    `gorm:"type:varchar(150);not null;default:'';comment:真实姓名" json:"real_name"`
+	Nickname  string    `gorm:"type:varchar(150);not null;default:'';comment:昵称" json:"nickname"`
+	CreatedAt db.JSONTime 		`gorm:"not null" json:"created_at"`
 }
 
 func (User) TableName() string {
