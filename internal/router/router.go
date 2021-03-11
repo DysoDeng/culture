@@ -1,6 +1,7 @@
 package router
 
 import (
+	"culture/cloud/base/internal/controller"
 	"culture/cloud/base/internal/middleware"
 	"github.com/gin-gonic/gin"
 )
@@ -12,17 +13,9 @@ func Router() *gin.Engine {
 	// 跨域处理
 	router.Use(middleware.CrossDomain)
 
-	api := router.Group("/v1/api")
+	api := router.Group("/api")
 
-	// 用户登录授权
-	authRouter(api)
-
-	// 鉴权路由
-	authorization := api.Group("/")
-	authorization.Use(middleware.TokenAuth)
-	{
-		userRouter(authorization)
-	}
+	api.POST("/demo", controller.Demo)
 
 	return router
 }

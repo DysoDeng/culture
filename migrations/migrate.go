@@ -2,7 +2,6 @@ package main
 
 import (
 	"culture/cloud/base/internal/model"
-	"culture/cloud/base/internal/model/message"
 	"culture/cloud/base/internal/support/db"
 	"flag"
 	"github.com/go-gormigrate/gormigrate/v2"
@@ -13,28 +12,12 @@ import (
 // 定义数据库迁移
 var migration = []*gormigrate.Migration{
 	{
-		ID: "202103101456",
-		Migrate: func(g *gorm.DB) error {
-			err := g.AutoMigrate(&message.SmsConfig{}, &message.SmsTemplate{})
-			if err != nil {
-				return err
-			}
-
-			g.Exec("ALTER TABLE sms_config COMMENT=\"短信提供商配置表\"")
-			g.Exec("ALTER TABLE sms_template COMMENT=\"短信模版配置表\"")
-			return nil
-		},
-		Rollback: func(g *gorm.DB) error {
-			return g.Migrator().DropTable(&message.SmsConfig{})
-		},
-	},
-	{
 		ID: "202103101459",
 		Migrate: func(g *gorm.DB) error {
-			return g.AutoMigrate(&model.User{})
+			return g.AutoMigrate(&model.Demo{})
 		},
 		Rollback: func(g *gorm.DB) error {
-			return g.Migrator().DropTable(&model.User{})
+			return g.Migrator().DropTable(&model.Demo{})
 		},
 	},
 }

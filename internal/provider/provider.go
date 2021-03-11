@@ -3,10 +3,7 @@ package provider
 import (
 	"culture/cloud/base/internal/config"
 	"culture/cloud/base/internal/service"
-	"culture/cloud/base/internal/service/contracts/logs"
-	"culture/cloud/base/internal/service/contracts/users"
-	logsService "culture/cloud/base/internal/service/logs"
-	usersService "culture/cloud/base/internal/service/users"
+	"culture/cloud/base/internal/service/contracts"
 	"fmt"
 	"github.com/goava/di"
 	"github.com/pkg/errors"
@@ -19,9 +16,7 @@ func ServiceProvider() {
 	}
 	var err error
 	service.Container, err = di.New(
-		di.Provide(usersService.NewUserService, di.As(new(users.UserServiceInterface))),
-		di.Provide(usersService.NewFinanceService, di.As(new(users.FinanceServiceInterface))),
-		di.Provide(logsService.NewLogService, di.As(new(logs.LogServiceInterface))),
+		di.Provide(service.NewDemoService, di.As(new(contracts.DemoServiceInterface))),
 	)
 	if err != nil {
 		err = errors.Wrap(err, "service provider error.")
