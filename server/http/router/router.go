@@ -1,8 +1,8 @@
 package router
 
 import (
-	"culture/cloud/base/internal/controller"
-	"culture/cloud/base/internal/middleware"
+	"culture/cloud/base/server/http/controller"
+	"culture/cloud/base/server/http/middleware"
 	"github.com/gin-gonic/gin"
 )
 

@@ -1,6 +1,11 @@
 package message
 
+// 错误信息类型
 type ErrorMessage string
+
+func (em ErrorMessage) String() string {
+	return string(em)
+}
 
 const (
 	// 登录注册错误信息

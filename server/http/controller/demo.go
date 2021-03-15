@@ -15,7 +15,7 @@ func Demo(ctx *gin.Context) {
 
 	demo, err := demoService.Test("test")
 	if err.Code != 200 {
-		ctx.JSON(http.StatusOK, api.Fail(err.Error, err.Code))
+		ctx.JSON(http.StatusOK, api.Fail(err.Error.Error(), err.Code))
 		return
 	}
 

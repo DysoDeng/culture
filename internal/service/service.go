@@ -8,7 +8,7 @@ import (
 // Error 服务错误码
 type Error struct {
 	Code  api.Code
-	Error string
+	Error error
 }
 
 // Container 服务容器

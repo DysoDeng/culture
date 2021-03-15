@@ -2,7 +2,7 @@ package service
 
 import (
 	"context"
-	"culture/cloud/base/rpc/proto"
+	"culture/cloud/base/server/rpc/proto"
 	"errors"
 	"log"
 	"time"
