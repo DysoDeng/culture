@@ -2,8 +2,8 @@
 /go_build_main_go
 /lastupdate.tmp
 /client
-culture
-culture-linux
+/culture
+/culture-linux
 nginx.conf
 .env
 env.sh
