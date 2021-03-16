@@ -1,0 +1,25 @@
+syntax = "proto3";
+
+package auth;
+
+message TokenRequest {
+    // token
+    string token = 1;
+}
+
+message TokenResponse {
+    // 状态码 200-正常 2-未创建文化云 0-错误 401-未授权 405-无权限
+    int64 code = 1;
+    // 用户类型 文化云-culture 用户-user 运营后台-admin
+    string user_type = 2;
+    // 用户类型对应的用户ID
+    uint64 user_id = 3;
+}
+
+
+service Auth {
+    // ValidToken 验证token
+    rpc ValidToken(TokenRequest) returns(TokenResponse);
+    // ValidNotToken 验证通用token
+    rpc ValidNotToken(TokenRequest) returns(TokenResponse);
+}

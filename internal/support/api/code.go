@@ -3,10 +3,19 @@ package api
 // 响应码
 type Code int
 
+func (c Code) ToInt() int {
+	return int(c)
+}
+
+func (c Code) ToInt64() int64 {
+	return int64(c)
+}
+
 // 接口响应码
 const (
 	CodeOk               Code = 200 // 成功
 	CodeFail             Code = 0   // 业务错误
+	CodeNotCreate        Code = 2   // 未创建资源
 	CodeBadRequest       Code = 400 // 请求出错
 	CodeUnauthorized     Code = 401 // 未授权
 	CodeForbidden        Code = 403 // 无权限

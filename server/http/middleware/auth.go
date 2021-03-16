@@ -1,20 +1,20 @@
 package middleware
 
 import (
+	"context"
 	"culture/cloud/base/internal/config"
 	"culture/cloud/base/internal/support/api"
-	"fmt"
-	"github.com/dgrijalva/jwt-go"
+	"culture/cloud/base/server/rpc/proto/auth"
+	"github.com/dysodeng/drpc/discovery"
 	"github.com/gin-gonic/gin"
 	"log"
 	"net/http"
+	"time"
 )
 
-// Token验证
+// TokenAuth Token验证
 func TokenAuth(ctx *gin.Context) {
 	tokenString := ctx.GetHeader("Authorization")
-
-	conf := config.Config
 
 	if tokenString == "" {
 		ctx.Abort()
@@ -22,53 +22,105 @@ func TokenAuth(ctx *gin.Context) {
 		return
 	}
 
-	token, err := jwt.Parse(tokenString, func(jwtToken *jwt.Token) (interface{}, error) {
-		// Don't forget to validate the alg is what you expect:
-		if _, ok := jwtToken.Method.(*jwt.SigningMethodHMAC); !ok {
-			return nil, fmt.Errorf("Unexpected signing method: %v", jwtToken.Header["alg"])
-		}
-
-		// hmacSampleSecret is a []byte containing your secret, e.g. []byte("my_secret_key")
-		return []byte(config.Config.TokenKey), nil
-	})
+	d, err := discovery.NewEtcdV3Discovery([]string{config.Config.Etcd.Addr+":"+config.Config.Etcd.Port}, config.RpcPrefix)
 	if err != nil {
 		log.Println(err)
 		ctx.Abort()
-		ctx.JSON(http.StatusOK, api.Fail("token错误", api.CodeUnauthorized))
+		ctx.JSON(http.StatusOK, api.Fail("rpc auth service error", api.CodeUnauthorized))
 		return
 	}
+	defer d.Close()
 
-	if claims, ok := token.Claims.(jwt.MapClaims); ok && token.Valid {
-		if claims["aud"] != conf.AppDomain || claims["iss"] != conf.AppDomain+"/api/auth" {
-			ctx.Abort()
-			ctx.JSON(http.StatusOK, api.Fail("illegal token", api.CodeUnauthorized))
-			return
-		}
-		if claims["is_refresh_token"] == true {
-			ctx.Abort()
-			ctx.JSON(http.StatusOK, api.Fail("refresh token不能用于业务请求", api.CodeUnauthorized))
-			return
-		}
+	authCtx, authCancel := context.WithDeadline(context.Background(), time.Now().Add(3 * time.Second))
+	defer authCancel()
 
-		switch claims["user_type"].(string) {
+	conn := d.Conn("AuthService")
+	authService := auth.NewAuthClient(conn)
+	res, err := authService.ValidToken(authCtx, &auth.TokenRequest{Token: tokenString})
+	if err != nil {
+		ctx.Abort()
+		ctx.JSON(http.StatusOK, api.Fail(err.Error(), api.CodeUnauthorized))
+		return
+	}
+	if res.Code != api.CodeOk.ToInt64() {
+		if res.Code == api.CodeNotCreate.ToInt64() {
+			if res.UserType == "culture" {
+				ctx.Abort()
+				ctx.JSON(http.StatusOK, api.Fail("未创建文化云", api.CodeNotCreate))
+				return
+			}
+		}
+	} else {
+		switch res.UserType {
+		case "culture":
+			ctx.Set("user_type", "culture")
+			ctx.Set("master_id", res.UserId)
+			break
 		case "user":
 			ctx.Set("user_type", "user")
-			ctx.Set("user_id", int64(claims["user_id"].(float64)))
+			ctx.Set("user_id", res.UserId)
 			break
 		case "admin":
 			ctx.Set("user_type", "admin")
-			ctx.Set("admin_id", int64(claims["admin_id"].(float64)))
+			ctx.Set("admin_id", res.UserId)
 			break
 		default:
 			ctx.Abort()
 			ctx.JSON(http.StatusOK, api.Fail("用户类型错误", api.CodeUnauthorized))
 			return
 		}
+	}
 
+	ctx.Next()
+}
+
+// NotTokenAuth 通用Token验证
+func NotTokenAuth(ctx *gin.Context) {
+	tokenString := ctx.GetHeader("Authorization")
+
+	if tokenString == "" {
 		ctx.Next()
 	} else {
-		ctx.Abort()
-		ctx.JSON(http.StatusOK, api.Fail("illegal token", api.CodeUnauthorized))
-		return
+		d, err := discovery.NewEtcdV3Discovery([]string{config.Config.Etcd.Addr+":"+config.Config.Etcd.Port}, config.RpcPrefix)
+		if err != nil {
+			log.Println(err)
+			ctx.Abort()
+			ctx.JSON(http.StatusOK, api.Fail("rpc auth service error", api.CodeUnauthorized))
+			return
+		}
+		defer d.Close()
+
+		authCtx, authCancel := context.WithDeadline(context.Background(), time.Now().Add(3 * time.Second))
+		defer authCancel()
+
+		conn := d.Conn("AuthService")
+		authService := auth.NewAuthClient(conn)
+		res, err := authService.ValidNotToken(authCtx, &auth.TokenRequest{Token: tokenString})
+		if err != nil {
+			ctx.Next()
+		} else {
+			if res.Code != api.CodeOk.ToInt64() {
+				ctx.Next()
+			} else {
+				switch res.UserType {
+				case "culture":
+					ctx.Set("user_type", "culture")
+					ctx.Set("master_id", res.UserId)
+					break
+				case "user":
+					ctx.Set("user_type", "user")
+					ctx.Set("user_id", res.UserId)
+					break
+				case "admin":
+					ctx.Set("user_type", "admin")
+					ctx.Set("admin_id", res.UserId)
+					break
+				default:
+					ctx.Next()
+				}
+			}
+
+			ctx.Next()
+		}
 	}
 }
