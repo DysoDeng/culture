@@ -21,8 +21,14 @@ func main() {
 		gin.SetMode(gin.ReleaseMode)
 	}
 
-	httpPort := "8080"
-	rpcPort := "9000"
+	httpPort := config.Config.HttpPort
+	rpcPort := config.Config.RpcPort
+	if httpPort == "" {
+		httpPort = "8080"
+	}
+	if rpcPort == "" {
+		rpcPort = "9000"
+	}
 
 	// error logger
 	logFilename := config.LogPath + "/gin.error.log"

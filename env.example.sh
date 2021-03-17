@@ -35,3 +35,7 @@ export redis_key_prefix=culture
 export etcd_host=127.0.0.1
 # etcd连接端口
 export etcd_port=2379
+# http 服务端口,为空时默认为8080
+export http_port=
+# rpc 服务端口,为空时默认为9000
+export rpc_port=

@@ -34,6 +34,8 @@ type AppConfig struct {
 	DataBase  DataBase
 	Redis     Redis
 	Etcd      Etcd
+	HttpPort  string
+	RpcPort	  string
 }
 
 // 数据库配置
@@ -113,6 +115,8 @@ func initAppConfig() {
 		Env:       env,
 		TokenKey:  os.Getenv("token_secret"),
 		AppDomain: os.Getenv("app_domain"),
+		HttpPort: os.Getenv("http_port"),
+		RpcPort: os.Getenv("rpc_port"),
 		DataBase: DataBase{
 			Connection:      dbConnection,
 			Host:            os.Getenv("db_host"),

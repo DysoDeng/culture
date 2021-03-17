@@ -9,7 +9,7 @@ services:
     env_file:
       - .env
     ports:
-      - "8080:8080"
+      - ${http_port}:${http_port}
     environment:
       - env=debug
       - app_domain=${app_domain}
@@ -28,6 +28,8 @@ services:
       - redis_key_prefix=${redis_key_prefix}
       - etcd_addr=${etcd_host}
       - etcd_port=${etcd_port}
+      - http_port=${http_port}
+      - rpc_port=${rpc_port}
       - token_secret=${token_secret}
     networks:
       - culture-cloud
