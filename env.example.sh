@@ -30,10 +30,8 @@ export redis_port=6379
 # redis密码
 export redis_password=
 # redis key前缀
-export redis_key_prefix=
+export redis_key_prefix=culture
 # etcd连接地址
 export etcd_host=127.0.0.1
 # etcd连接端口
 export etcd_port=2379
-# api token secret
-export token_secret=
