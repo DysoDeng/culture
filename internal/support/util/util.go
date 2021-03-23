@@ -6,6 +6,7 @@ import (
 	"log"
 	"math/rand"
 	"net"
+	"strconv"
 	"strings"
 	"time"
 )
@@ -16,6 +17,9 @@ const (
 	letterIdxMask = 1<<letterIdxBits - 1
 	letterIdxMax  = 63 / letterIdxBits
 )
+
+// CstHour 东八区
+const CstHour int64 = 8 * 3600
 
 // GeneratePassword 生成密码
 func GeneratePassword(password []byte) string {
@@ -81,9 +85,34 @@ func GetLocalIp() string {
 	if err != nil {
 		log.Fatal(err)
 	}
-	defer conn.Close()
+	defer func() {
+		_ = conn.Close()
+	}()
 
 	localAddr := conn.LocalAddr().(*net.UDPAddr)
 
 	return localAddr.IP.String()
+}
+
+// CreateOrderNo 生成唯一订单号
+func CreateOrderNo() string {
+	sTime := time.Now().Format("20060102150405")
+
+	t := time.Now().UnixNano()
+	s := strconv.FormatInt(t, 10)
+	b := string([]byte(s)[len(s) - 9:])
+	c := string([]byte(b)[:7])
+
+	rand.Seed(t)
+
+	sTime += c + strconv.FormatInt(rand.Int63n(999999 - 100000) + 100000, 10)
+	return sTime
+}
+
+// ResolveTime 将整数转换为时分秒
+func ResolveTime(seconds int) (hour, minute, second int) {
+	hour = seconds / 3600
+	minute = (seconds - hour*3600) / 60
+	second = seconds - hour*3600 - minute*60
+	return
 }

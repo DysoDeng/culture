@@ -3,7 +3,7 @@ package model
 import "culture/cloud/base/internal/support/db"
 
 // 基础模型
-//
+// 所有数据模型都应该继承 PrimaryKeyID 与 Time 模型
 
 // 主键ID
 type PrimaryKeyID struct {
