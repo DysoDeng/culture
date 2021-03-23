@@ -22,6 +22,8 @@ const (
 const CstHour int64 = 8 * 3600
 
 // GeneratePassword 生成密码
+// @param string password 明文密码
+// @return string
 func GeneratePassword(password []byte) string {
 	hash, err := bcrypt.GenerateFromPassword(password, bcrypt.MinCost)
 	if err != nil {
@@ -32,6 +34,9 @@ func GeneratePassword(password []byte) string {
 }
 
 // ComparePassword 验证密码
+// @param string hashedPassword hash密码
+// @param string plainPassword 明文密码
+// @return bool
 func ComparePassword(hashedPassword string, plainPassword string) bool {
 	byteHashByte := []byte(hashedPassword)
 	plainPasswordByte := []byte(plainPassword)
@@ -45,19 +50,23 @@ func ComparePassword(hashedPassword string, plainPassword string) bool {
 }
 
 // GenValidateCode 生成指定长度数字字符串
-func GenValidateCode(width int) string {
+// @param int length 生成字符串长度
+// @return string
+func GenValidateCode(length int) string {
 	numeric := [10]byte{0, 1, 2, 3, 4, 5, 6, 7, 8, 9}
 	r := len(numeric)
 	rand.Seed(time.Now().UnixNano())
 
 	var sb strings.Builder
-	for i := 0; i < width; i++ {
+	for i := 0; i < length; i++ {
 		_, _ = fmt.Fprintf(&sb, "%d", numeric[rand.Intn(r)])
 	}
 	return sb.String()
 }
 
 // RandStringBytesMask 生成随机字符串
+// @param int length 生成字符串长度
+// @return string
 func RandStringBytesMask(length int) string {
 
 	str := make([]byte, length)
@@ -80,6 +89,7 @@ func RandStringBytesMask(length int) string {
 }
 
 // GetLocalIp 获取本机IP地址
+// @return string
 func GetLocalIp() string {
 	conn, err := net.Dial("udp", "8.8.8.8:80")
 	if err != nil {
@@ -95,6 +105,7 @@ func GetLocalIp() string {
 }
 
 // CreateOrderNo 生成唯一订单号
+// @return string
 func CreateOrderNo() string {
 	sTime := time.Now().Format("20060102150405")
 
@@ -110,6 +121,10 @@ func CreateOrderNo() string {
 }
 
 // ResolveTime 将整数转换为时分秒
+// @param int seconds 秒数
+// @return int hour 小时数
+// @return int minute 分钟数
+// @return int second 秒数
 func ResolveTime(seconds int) (hour, minute, second int) {
 	hour = seconds / 3600
 	minute = (seconds - hour*3600) / 60
