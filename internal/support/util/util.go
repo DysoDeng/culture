@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"golang.org/x/crypto/bcrypt"
 	"log"
+	"math"
 	"math/rand"
 	"net"
 	"strconv"
@@ -131,3 +132,23 @@ func ResolveTime(seconds int) (hour, minute, second int) {
 	second = seconds - hour*3600 - minute*60
 	return
 }
+
+// FileSizeFormat 格式化文件大小
+// @param uint64 fileSize 文件大小(字节)
+// @return string
+func FileSizeFormat(fileSize uint64) string {
+	var byteNum float64 = 1024 // byte
+	size := float64(fileSize)
+
+	if size < byteNum { // B
+		return fmt.Sprintf("%f", size) + "B"
+	} else if size < math.Pow(byteNum, 2) { // KB
+		return fmt.Sprintf("%.2f", size/byteNum) + "KB"
+	} else if size < math.Pow(byteNum, 3) { // MB
+		return fmt.Sprintf("%.2f", size/math.Pow(byteNum, 2)) + "MB"
+	} else if size < math.Pow(byteNum, 4) { // GB
+		return fmt.Sprintf("%.2f", size/math.Pow(byteNum, 3)) + "GB"
+	}
+	return fmt.Sprintf("%.2f", size/math.Pow(byteNum, 4)) + "TB"
+}
+
