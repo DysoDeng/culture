@@ -1,10 +1,22 @@
 package message
 
+import "strings"
+
 // 错误信息类型
 type ErrorMessage string
 
+// String
 func (em ErrorMessage) String() string {
 	return string(em)
+}
+
+// Param 参数设置
+func (em ErrorMessage) Param(param map[string]string) ErrorMessage {
+	str := em.String()
+	for k, v := range param{
+		str = strings.Replace(str, "{"+k+"}", v, 1)
+	}
+	return ErrorMessage(str)
 }
 
 const (
