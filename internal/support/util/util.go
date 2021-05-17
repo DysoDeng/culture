@@ -112,12 +112,12 @@ func CreateOrderNo() string {
 
 	t := time.Now().UnixNano()
 	s := strconv.FormatInt(t, 10)
-	b := string([]byte(s)[len(s) - 9:])
+	b := string([]byte(s)[len(s)-9:])
 	c := string([]byte(b)[:7])
 
 	rand.Seed(t)
 
-	sTime += c + strconv.FormatInt(rand.Int63n(999999 - 100000) + 100000, 10)
+	sTime += c + strconv.FormatInt(rand.Int63n(999999-100000)+100000, 10)
 	return sTime
 }
 
@@ -151,4 +151,3 @@ func FileSizeFormat(fileSize uint64) string {
 	}
 	return fmt.Sprintf("%.2f", size/math.Pow(byteNum, 4)) + "TB"
 }
-

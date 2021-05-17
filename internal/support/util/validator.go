@@ -2,7 +2,7 @@ package util
 
 import "regexp"
 
-// 数据格式验证
+// Validator 数据格式验证
 type Validator struct{}
 
 // IsMobile 判断是否为手机号

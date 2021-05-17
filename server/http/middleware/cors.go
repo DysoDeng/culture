@@ -7,7 +7,7 @@ import (
 	"strings"
 )
 
-// 跨域处理
+// CrossDomain 跨域处理
 func CrossDomain(ctx *gin.Context) {
 	method := ctx.Request.Method
 

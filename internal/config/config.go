@@ -5,19 +5,19 @@ import (
 	"strconv"
 )
 
-// 应用环境
+// Env 应用环境
 type Env string
 
 const (
-	// 生产环境
+	// Release 生产环境
 	Release Env = "release"
-	// 开发环境
+	// Debug 开发环境
 	Debug Env = "debug"
-	// 测试环境
+	// Test 测试环境
 	Test Env = "test"
 )
 
-// rpc前缀
+// RpcPrefix rpc前缀
 const RpcPrefix = "culture/cloud/grpc"
 
 const (
@@ -35,10 +35,10 @@ type AppConfig struct {
 	Redis     Redis
 	Etcd      Etcd
 	HttpPort  string
-	RpcPort	  string
+	RpcPort   string
 }
 
-// 数据库配置
+// DataBase 数据库配置
 type DataBase struct {
 	// 数据库类型
 	Connection string
@@ -57,7 +57,7 @@ type DataBase struct {
 	ConnMaxLifetime int
 }
 
-// redis配置
+// Redis redis配置
 type Redis struct {
 	Host      string
 	Port      string
@@ -115,8 +115,8 @@ func initAppConfig() {
 		Env:       env,
 		TokenKey:  os.Getenv("token_secret"),
 		AppDomain: os.Getenv("app_domain"),
-		HttpPort: os.Getenv("http_port"),
-		RpcPort: os.Getenv("rpc_port"),
+		HttpPort:  os.Getenv("http_port"),
+		RpcPort:   os.Getenv("rpc_port"),
 		DataBase: DataBase{
 			Connection:      dbConnection,
 			Host:            os.Getenv("db_host"),

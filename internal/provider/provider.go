@@ -9,7 +9,7 @@ import (
 	"github.com/pkg/errors"
 )
 
-// 服务容器初始化
+// ServiceProvider 服务容器初始化
 func ServiceProvider() {
 	if config.Config.Env != config.Release {
 		di.SetTracer(&di.StdTracer{})

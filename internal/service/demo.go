@@ -6,7 +6,7 @@ import (
 	"fmt"
 )
 
-type DemoService struct {}
+type DemoService struct{}
 
 func NewDemoService() *DemoService {
 	return &DemoService{}

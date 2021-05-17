@@ -12,6 +12,7 @@ require (
 	github.com/go-redis/redis/v7 v7.4.0
 	github.com/goava/di v1.6.3
 	github.com/golang/protobuf v1.4.3 // indirect
+	github.com/google/uuid v1.2.0 // indirect
 	github.com/json-iterator/go v1.1.10 // indirect
 	github.com/leodido/go-urn v1.2.1 // indirect
 	github.com/modern-go/reflect2 v1.0.1 // indirect

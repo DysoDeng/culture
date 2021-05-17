@@ -94,7 +94,7 @@ func initDB() *gorm.DB {
 	return DB
 }
 
-// 获取数据库连接
+// DB 获取数据库连接
 func DB() *gorm.DB {
 	var orm *gorm.DB
 	_ = container.Resolve(&orm)
@@ -108,7 +108,7 @@ func DB() *gorm.DB {
 	return orm
 }
 
-// get full table name
+// FullTableName get full table name
 func FullTableName(tableName string) string {
 	return config.Config.DataBase.Prefix + tableName
 }

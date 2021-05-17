@@ -45,14 +45,14 @@ func initRedis() *redis.Client {
 	return redisPoolClient
 }
 
-// 获取redis实例
+// Client 获取redis实例
 func Client() *redis.Client {
 	var client *redis.Client
 	_ = container.Resolve(&client)
 	return client
 }
 
-// 构建安全key
+// Key 构建安全key
 func Key(key string) string {
 	prefix := config.Config.Redis.KeyPrefix
 	if prefix != "" {
