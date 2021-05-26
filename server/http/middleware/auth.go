@@ -1,15 +1,11 @@
 package middleware
 
 import (
-	"context"
-	"culture/cloud/base/internal/config"
 	"culture/cloud/base/internal/support/api"
+	"culture/cloud/base/internal/support/util"
 	"culture/cloud/base/server/rpc/proto/auth"
-	"github.com/dysodeng/drpc/discovery"
 	"github.com/gin-gonic/gin"
-	"log"
 	"net/http"
-	"time"
 )
 
 // TokenAuth Token验证
@@ -22,19 +18,15 @@ func TokenAuth(ctx *gin.Context) {
 		return
 	}
 
-	d, err := discovery.NewEtcdV3Discovery([]string{config.Config.Etcd.Addr+":"+config.Config.Etcd.Port}, config.RpcPrefix)
+	authCtx, authCancel, rpcDiscovery, err := util.RpcDiscovery(3)
 	if err != nil {
-		log.Println(err)
-		ctx.Abort()
-		ctx.JSON(http.StatusOK, api.Fail("rpc auth service error", api.CodeUnauthorized))
+		ctx.JSON(http.StatusOK, api.Fail(err.Error(), api.CodeFail))
 		return
 	}
-	defer d.Close()
-
-	authCtx, authCancel := context.WithDeadline(context.Background(), time.Now().Add(3 * time.Second))
+	defer rpcDiscovery.Close()
 	defer authCancel()
 
-	conn := d.Conn("AuthService")
+	conn := rpcDiscovery.Conn("AuthService")
 	authService := auth.NewAuthClient(conn)
 	res, err := authService.ValidToken(authCtx, &auth.TokenRequest{Token: tokenString})
 	if err != nil {
@@ -81,19 +73,15 @@ func NotTokenAuth(ctx *gin.Context) {
 	if tokenString == "" {
 		ctx.Next()
 	} else {
-		d, err := discovery.NewEtcdV3Discovery([]string{config.Config.Etcd.Addr+":"+config.Config.Etcd.Port}, config.RpcPrefix)
+		authCtx, authCancel, rpcDiscovery, err := util.RpcDiscovery(3)
 		if err != nil {
-			log.Println(err)
-			ctx.Abort()
-			ctx.JSON(http.StatusOK, api.Fail("rpc auth service error", api.CodeUnauthorized))
+			ctx.JSON(http.StatusOK, api.Fail(err.Error(), api.CodeFail))
 			return
 		}
-		defer d.Close()
-
-		authCtx, authCancel := context.WithDeadline(context.Background(), time.Now().Add(3 * time.Second))
+		defer rpcDiscovery.Close()
 		defer authCancel()
 
-		conn := d.Conn("AuthService")
+		conn := rpcDiscovery.Conn("AuthService")
 		authService := auth.NewAuthClient(conn)
 		res, err := authService.ValidNotToken(authCtx, &auth.TokenRequest{Token: tokenString})
 		if err != nil {
