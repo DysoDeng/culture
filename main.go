@@ -22,8 +22,8 @@ func main() {
 		gin.SetMode(gin.ReleaseMode)
 	}
 
-	httpPort := config.Config.HTTPPort
-	rpcPort := config.Config.RPCPort
+	httpPort := config.Config.HttpPort
+	rpcPort := config.Config.RpcPort
 	if httpPort == "" {
 		httpPort = "8080"
 	}

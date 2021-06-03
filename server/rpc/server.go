@@ -16,7 +16,7 @@ func Server(ip string, rpcPort string) *drpc.Server {
 	rpcServer := drpc.NewServer(&register.EtcdV3Register{
 		ServiceAddress: ip + ":" + rpcPort,
 		EtcdServers:    []string{config.Config.Etcd.Addr + ":" + config.Config.Etcd.Port},
-		BasePath:       config.RPCPrefix,
+		BasePath:       config.RpcPrefix,
 		Lease:          5,
 		Metrics:        metrics.NewMeter(),
 		ShowMetricsLog: false,

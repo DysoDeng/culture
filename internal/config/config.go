@@ -17,8 +17,8 @@ const (
 	Test Env = "test"
 )
 
-// RPCPrefix rpc前缀
-const RPCPrefix = "culture/cloud/grpc"
+// RpcPrefix rpc前缀
+const RpcPrefix = "culture/cloud/grpc"
 
 const (
 	// VarPath var目录
@@ -38,8 +38,8 @@ type AppConfig struct {
 	DataBase  DataBase
 	Redis     Redis
 	Etcd      Etcd
-	HTTPPort  string
-	RPCPort   string
+	HttpPort  string
+	RpcPort   string
 }
 
 // DataBase 数据库配置
@@ -121,8 +121,8 @@ func initAppConfig() {
 		Env:       env,
 		TokenKey:  os.Getenv("token_secret"),
 		AppDomain: os.Getenv("app_domain"),
-		HTTPPort:  os.Getenv("http_port"),
-		RPCPort:   os.Getenv("rpc_port"),
+		HttpPort:  os.Getenv("http_port"),
+		RpcPort:   os.Getenv("rpc_port"),
 		DataBase: DataBase{
 			Connection:      dbConnection,
 			Host:            os.Getenv("db_host"),
