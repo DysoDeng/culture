@@ -30,25 +30,6 @@ do
         PASS=false
     fi
 
-    # go tool vet 检查代码中的静态错误
-    # shellcheck disable=SC2086
-    go vet $FILE
-    # shellcheck disable=SC2181
-    if [ $? != 0 ]; then
-        printf "vet error \n"
-        PASS=false
-    fi
-
-    # 检测隐患变量
-    # 需要安装：go install golang.org/x/tools/go/analysis/passes/shadow/cmd/shadow
-    # shellcheck disable=SC2046
-    go vet -vettool=$(which shadow) "$FILE"
-    # shellcheck disable=SC2181
-    if [ $? != 0 ]; then
-        printf "shadow error \n"
-        PASS=false
-    fi
-
     # 如果当前文件没有被格式化，就格式化它
     UN_FORMATTED=$(gofmt -l "$FILE")
     if [ "$UN_FORMATTED" != "" ];then
@@ -65,6 +46,25 @@ do
     git add "$FILE"
 
 done
+
+# go tool vet 检查代码中的静态错误
+# shellcheck disable=SC2086
+go vet
+# shellcheck disable=SC2181
+if [ $? != 0 ]; then
+    printf "vet error \n"
+    PASS=false
+fi
+
+# 检测隐患变量
+# 需要安装：go install golang.org/x/tools/go/analysis/passes/shadow/cmd/shadow
+# shellcheck disable=SC2046
+go vet -vettool=$(which shadow)
+# shellcheck disable=SC2181
+if [ $? != 0 ]; then
+    printf "shadow error \n"
+    PASS=false
+fi
 
 if ! $PASS; then
     printf "\033[31m COMMIT FAILED \033[0m\n"
