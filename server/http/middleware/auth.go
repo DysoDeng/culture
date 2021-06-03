@@ -4,8 +4,9 @@ import (
 	"culture/cloud/base/internal/support/api"
 	"culture/cloud/base/internal/support/util"
 	"culture/cloud/base/server/rpc/proto/auth"
-	"github.com/gin-gonic/gin"
 	"net/http"
+
+	"github.com/gin-gonic/gin"
 )
 
 // TokenAuth Token验证
@@ -18,7 +19,7 @@ func TokenAuth(ctx *gin.Context) {
 		return
 	}
 
-	authCtx, authCancel, rpcDiscovery, err := util.RpcDiscovery(3)
+	authCtx, authCancel, rpcDiscovery, err := util.RPCDiscovery(3)
 	if err != nil {
 		ctx.JSON(http.StatusOK, api.Fail(err.Error(), api.CodeFail))
 		return
@@ -73,7 +74,7 @@ func NotTokenAuth(ctx *gin.Context) {
 	if tokenString == "" {
 		ctx.Next()
 	} else {
-		authCtx, authCancel, rpcDiscovery, err := util.RpcDiscovery(3)
+		authCtx, authCancel, rpcDiscovery, err := util.RPCDiscovery(3)
 		if err != nil {
 			ctx.JSON(http.StatusOK, api.Fail(err.Error(), api.CodeFail))
 			return

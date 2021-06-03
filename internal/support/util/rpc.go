@@ -10,8 +10,8 @@ import (
 	"github.com/pkg/errors"
 )
 
-// RpcDiscovery 获取Rpc服务连接地址
-func RpcDiscovery(timeoutSecond int64) (context.Context, context.CancelFunc, discovery.ServiceDiscovery, error) {
+// RPCDiscovery 获取Rpc服务连接地址
+func RPCDiscovery(timeoutSecond int64) (context.Context, context.CancelFunc, discovery.ServiceDiscovery, error) {
 	d, err := discovery.NewEtcdV3Discovery([]string{config.Config.Etcd.Addr + ":" + config.Config.Etcd.Port}, config.RPCPrefix)
 	if err != nil {
 		log.Println(err)
