@@ -23,13 +23,6 @@ do
         PASS=false
     fi
 
-    # golint 检查代码风格,给出提示
-    golint -set_exit_status "$FILE"
-    if [ $? == 11 ]; then
-        printf "golint error \n"
-        PASS=false
-    fi
-
     # 如果当前文件没有被格式化，就格式化它
     UN_FORMATTED=$(gofmt -l "$FILE")
     if [ "$UN_FORMATTED" != "" ];then

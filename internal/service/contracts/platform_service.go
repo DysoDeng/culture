@@ -9,7 +9,7 @@ type PlatformService interface {
 	// Ident 获取服务标识
 	Ident() string
 	// InitService 初始化服务
-	InitService(cloudID uint64) service.Error
+	InitService(cloudId uint64) service.Error
 	// CheckService 检查服务是否可用
-	CheckService(cloudID uint64) (bool, service.Error)
+	CheckService(cloudId uint64) (bool, service.Error)
 }
