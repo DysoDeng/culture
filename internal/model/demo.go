@@ -2,6 +2,7 @@ package model
 
 import (
 	"culture/cloud/base/internal/config"
+
 	"gorm.io/gorm"
 )
 
@@ -12,6 +13,7 @@ type Demo struct {
 	Time                // 添加时间，修改时间
 }
 
+// TableName 获取数据表名称
 func (Demo) TableName() string {
 	return config.Config.DataBase.Prefix + "demo"
 }
@@ -24,6 +26,7 @@ type DistributedDemo struct {
 	Time
 }
 
+// TableName 获取数据表名称
 func (DistributedDemo) TableName() string {
 	return config.Config.DataBase.Prefix + "distributed_demo"
 }

@@ -9,7 +9,7 @@ type App interface {
 	// Ident 获取应用标识
 	Ident() string
 	// InitApp 初始化应用
-	InitApp(cloudId uint64) service.Error
+	InitApp(cloudID uint64) service.Error
 	// CheckApp 检查应用是否可用
-	CheckApp(cloudId uint64) (bool, service.Error)
+	CheckApp(cloudID uint64) (bool, service.Error)
 }

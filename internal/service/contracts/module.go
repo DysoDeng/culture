@@ -9,7 +9,7 @@ type Module interface {
 	// Ident 获取模块标识
 	Ident() string
 	// InitModule 初始化模块
-	InitModule(cloudId uint64) service.Error
+	InitModule(cloudID uint64) service.Error
 	// CheckModule 检查模块是否可用
-	CheckModule(cloudId uint64) (bool, service.Error)
+	CheckModule(cloudID uint64) (bool, service.Error)
 }
