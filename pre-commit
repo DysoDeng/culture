@@ -36,7 +36,8 @@ do
     if [ $? != 0 ]; then
         PASS=false
     fi
-    # 检测shadow
+
+    # 检测隐患变量
     # 需要安装：go install golang.org/x/tools/go/analysis/passes/shadow/cmd/shadow
     # shellcheck disable=SC2046
     go vet -vettool=$(which shadow) "$FILE"
@@ -45,8 +46,7 @@ do
         PASS=false
     fi
 
-
-  # 如果当前文件没有被格式化，就格式化它
+    # 如果当前文件没有被格式化，就格式化它
     UN_FORMATTED=$(gofmt -l "$FILE")
     if [ "$UN_FORMATTED" != "" ];then
         gofmt -w "$PWD"/"$UN_FORMATTED"
