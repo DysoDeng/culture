@@ -17,15 +17,19 @@ const (
 	Test Env = "test"
 )
 
-// RpcPrefix rpc前缀
-const RpcPrefix = "culture/cloud/grpc"
+// RPCPrefix rpc前缀
+const RPCPrefix = "culture/cloud/grpc"
 
 const (
-	VarPath  string = "var"
-	LogPath         = VarPath + "/logs"
-	TempPath        = VarPath + "/tmp"
+	// VarPath var目录
+	VarPath string = "var"
+	// LogPath 日志目录
+	LogPath = VarPath + "/logs"
+	// TempPath 临时目录
+	TempPath = VarPath + "/tmp"
 )
 
+// AppConfig 主配置
 type AppConfig struct {
 	AppName   string
 	Env       Env
@@ -34,8 +38,8 @@ type AppConfig struct {
 	DataBase  DataBase
 	Redis     Redis
 	Etcd      Etcd
-	HttpPort  string
-	RpcPort   string
+	HTTPPort  string
+	RPCPort   string
 }
 
 // DataBase 数据库配置
@@ -66,11 +70,13 @@ type Redis struct {
 	KeyPrefix string
 }
 
+// Etcd 配置
 type Etcd struct {
 	Addr string
 	Port string
 }
 
+// Config 配置实例
 var Config *AppConfig
 
 // 初始化配置
@@ -115,8 +121,8 @@ func initAppConfig() {
 		Env:       env,
 		TokenKey:  os.Getenv("token_secret"),
 		AppDomain: os.Getenv("app_domain"),
-		HttpPort:  os.Getenv("http_port"),
-		RpcPort:   os.Getenv("rpc_port"),
+		HTTPPort:  os.Getenv("http_port"),
+		RPCPort:   os.Getenv("rpc_port"),
 		DataBase: DataBase{
 			Connection:      dbConnection,
 			Host:            os.Getenv("db_host"),

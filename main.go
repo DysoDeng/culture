@@ -7,12 +7,13 @@ import (
 	"culture/cloud/base/internal/support/util"
 	"culture/cloud/base/server/http"
 	"culture/cloud/base/server/rpc"
-	"github.com/gin-gonic/gin"
 	"io"
 	"log"
 	"os"
 	"os/signal"
 	"time"
+
+	"github.com/gin-gonic/gin"
 )
 
 func main() {
@@ -21,8 +22,8 @@ func main() {
 		gin.SetMode(gin.ReleaseMode)
 	}
 
-	httpPort := config.Config.HttpPort
-	rpcPort := config.Config.RpcPort
+	httpPort := config.Config.HTTPPort
+	rpcPort := config.Config.RPCPort
 	if httpPort == "" {
 		httpPort = "8080"
 	}

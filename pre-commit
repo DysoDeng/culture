@@ -26,6 +26,7 @@ do
     # golint 检查代码风格,给出提示
     golint -set_exit_status "$FILE"
     if [ $? == 11 ]; then
+        printf "golint error \n"
         PASS=false
     fi
 
@@ -34,6 +35,7 @@ do
     go vet $FILE
     # shellcheck disable=SC2181
     if [ $? != 0 ]; then
+        printf "vet error \n"
         PASS=false
     fi
 
@@ -43,6 +45,7 @@ do
     go vet -vettool=$(which shadow) "$FILE"
     # shellcheck disable=SC2181
     if [ $? != 0 ]; then
+        printf "shadow error \n"
         PASS=false
     fi
 
@@ -52,6 +55,7 @@ do
         gofmt -w "$PWD"/"$UN_FORMATTED"
         # shellcheck disable=SC2181
         if [ $? != 0 ]; then
+            printf "gofmt error \n"
             PASS=false
         fi
     fi

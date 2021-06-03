@@ -4,6 +4,7 @@ import (
 	"culture/cloud/base/internal/config"
 	"culture/cloud/base/server/rpc/proto"
 	"culture/cloud/base/server/rpc/service"
+
 	"github.com/dysodeng/drpc"
 	"github.com/dysodeng/drpc/register"
 	"github.com/rcrowley/go-metrics"
@@ -15,7 +16,7 @@ func Server(ip string, rpcPort string) *drpc.Server {
 	rpcServer := drpc.NewServer(&register.EtcdV3Register{
 		ServiceAddress: ip + ":" + rpcPort,
 		EtcdServers:    []string{config.Config.Etcd.Addr + ":" + config.Config.Etcd.Port},
-		BasePath:       config.RpcPrefix,
+		BasePath:       config.RPCPrefix,
 		Lease:          5,
 		Metrics:        metrics.NewMeter(),
 		ShowMetricsLog: false,
@@ -26,7 +27,7 @@ func Server(ip string, rpcPort string) *drpc.Server {
 		}
 	}()
 
-	_ = rpcServer.Register(&service.DemoService{}, proto.RegisterDemoServer, "")
+	_ = rpcServer.Register("DemoService", &service.DemoService{}, proto.RegisterDemoServer, "")
 
 	go func() {
 		rpcServer.Serve(":" + rpcPort)

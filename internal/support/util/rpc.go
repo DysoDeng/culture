@@ -3,15 +3,16 @@ package util
 import (
 	"context"
 	"culture/cloud/base/internal/config"
-	"github.com/dysodeng/drpc/discovery"
-	"github.com/pkg/errors"
 	"log"
 	"time"
+
+	"github.com/dysodeng/drpc/discovery"
+	"github.com/pkg/errors"
 )
 
 // RpcDiscovery 获取Rpc服务连接地址
 func RpcDiscovery(timeoutSecond int64) (context.Context, context.CancelFunc, discovery.ServiceDiscovery, error) {
-	d, err := discovery.NewEtcdV3Discovery([]string{config.Config.Etcd.Addr+":"+config.Config.Etcd.Port}, config.RpcPrefix)
+	d, err := discovery.NewEtcdV3Discovery([]string{config.Config.Etcd.Addr + ":" + config.Config.Etcd.Port}, config.RPCPrefix)
 	if err != nil {
 		log.Println(err)
 		return nil, nil, nil, errors.Wrap(err, "rpc auth service error")
@@ -21,7 +22,7 @@ func RpcDiscovery(timeoutSecond int64) (context.Context, context.CancelFunc, dis
 	if timeoutSecond <= 0 {
 		timeoutSecond = 3
 	}
-	ctx, ctxCancel := context.WithDeadline(context.Background(), time.Now().Add(time.Duration(timeoutSecond) * time.Second))
+	ctx, ctxCancel := context.WithDeadline(context.Background(), time.Now().Add(time.Duration(timeoutSecond)*time.Second))
 
 	return ctx, ctxCancel, d, nil
 }
