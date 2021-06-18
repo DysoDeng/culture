@@ -19,17 +19,17 @@ func TokenAuth(ctx *gin.Context) {
 		return
 	}
 
-	authCtx, authCancel, rpcDiscovery, err := util.RPCDiscovery(3)
+	rpcCtx, rpcCancel, rpcDiscovery, err := util.RpcDiscovery(3)
 	if err != nil {
 		ctx.JSON(http.StatusOK, api.Fail(err.Error(), api.CodeFail))
 		return
 	}
-	defer rpcDiscovery.Close()
-	defer authCancel()
+	//defer rpcDiscovery.Close()
+	defer rpcCancel()
 
 	conn := rpcDiscovery.Conn("AuthService")
 	authService := auth.NewAuthClient(conn)
-	res, err := authService.ValidToken(authCtx, &auth.TokenRequest{Token: tokenString})
+	res, err := authService.ValidToken(rpcCtx, &auth.TokenRequest{Token: tokenString})
 	if err != nil {
 		ctx.Abort()
 		ctx.JSON(http.StatusOK, api.Fail(err.Error(), api.CodeUnauthorized))
@@ -74,17 +74,17 @@ func NotTokenAuth(ctx *gin.Context) {
 	if tokenString == "" {
 		ctx.Next()
 	} else {
-		authCtx, authCancel, rpcDiscovery, err := util.RPCDiscovery(3)
+		rpcCtx, rpcCancel, rpcDiscovery, err := util.RpcDiscovery(3)
 		if err != nil {
 			ctx.JSON(http.StatusOK, api.Fail(err.Error(), api.CodeFail))
 			return
 		}
-		defer rpcDiscovery.Close()
-		defer authCancel()
+		//defer rpcDiscovery.Close()
+		defer rpcCancel()
 
 		conn := rpcDiscovery.Conn("AuthService")
 		authService := auth.NewAuthClient(conn)
-		res, err := authService.ValidNotToken(authCtx, &auth.TokenRequest{Token: tokenString})
+		res, err := authService.ValidNotToken(rpcCtx, &auth.TokenRequest{Token: tokenString})
 		if err != nil {
 			ctx.Next()
 		} else {
