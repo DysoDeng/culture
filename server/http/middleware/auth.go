@@ -27,7 +27,7 @@ func TokenAuth(ctx *gin.Context) {
 	//defer rpcDiscovery.Close()
 	defer rpcCancel()
 
-	conn := rpcDiscovery.Conn("AuthService")
+	conn := rpcDiscovery.Conn("Passport/AuthService")
 	authService := auth.NewAuthClient(conn)
 	res, err := authService.ValidToken(rpcCtx, &auth.TokenRequest{Token: tokenString})
 	if err != nil {
@@ -48,6 +48,7 @@ func TokenAuth(ctx *gin.Context) {
 		case "culture":
 			ctx.Set("user_type", "culture")
 			ctx.Set("master_id", res.UserId)
+			ctx.Set("cloud_id", res.CloudId)
 			break
 		case "user":
 			ctx.Set("user_type", "user")
@@ -82,7 +83,7 @@ func NotTokenAuth(ctx *gin.Context) {
 		//defer rpcDiscovery.Close()
 		defer rpcCancel()
 
-		conn := rpcDiscovery.Conn("AuthService")
+		conn := rpcDiscovery.Conn("Passport/AuthService")
 		authService := auth.NewAuthClient(conn)
 		res, err := authService.ValidNotToken(rpcCtx, &auth.TokenRequest{Token: tokenString})
 		if err != nil {
@@ -95,6 +96,7 @@ func NotTokenAuth(ctx *gin.Context) {
 				case "culture":
 					ctx.Set("user_type", "culture")
 					ctx.Set("master_id", res.UserId)
+					ctx.Set("cloud_id", res.CloudId)
 					break
 				case "user":
 					ctx.Set("user_type", "user")
