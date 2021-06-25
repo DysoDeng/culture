@@ -10,6 +10,12 @@ type Response struct {
 	Error string `json:"error"`
 }
 
+// Record 分页列表记录结构
+type Record struct {
+	Record interface{} `json:"record"`
+	Total  int64       `json:"total"`
+}
+
 // Success 正确响应
 func Success(result interface{}) Response {
 	return Response{CodeOk, result, "success"}
