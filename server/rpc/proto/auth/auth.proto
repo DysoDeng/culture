@@ -13,7 +13,11 @@ message TokenResponse {
     // 用户类型 文化云-culture 用户-user 运营后台-admin
     string user_type = 2;
     // 用户类型对应的用户ID
-    uint64 user_id = 3;
+    string user_id = 3;
+    // 文化云ID
+    string cloud_id = 4;
+    // 用户主ID
+    string bid = 5;
 }
 
 
