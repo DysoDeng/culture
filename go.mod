@@ -1,9 +1,9 @@
 module culture/cloud/base
 
-go 1.13
+go 1.16
 
 require (
-	github.com/dysodeng/drpc v0.0.7 // indirect
+	github.com/dysodeng/drpc v0.0.8 // indirect
 	github.com/gin-gonic/gin v1.6.3
 	github.com/go-gormigrate/gormigrate/v2 v2.0.0 // indirect
 	github.com/go-playground/validator/v10 v10.4.1 // indirect

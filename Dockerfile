@@ -1,5 +1,5 @@
 # build stage
-FROM golang:1.13
+FROM golang:1.16
 
 RUN /bin/cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime \
  && echo 'Asia/Shanghai' >/etc/timezone
