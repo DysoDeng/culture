@@ -9,7 +9,7 @@ services:
     env_file:
       - .env
     ports:
-      - ${http_port}:${http_port}
+      - ${compose_http_port}:${http_port}
     environment:
       - env=${env}
       - app_domain=${app_domain}
