@@ -2,7 +2,6 @@ package util
 
 import (
 	"fmt"
-	"golang.org/x/crypto/bcrypt"
 	"log"
 	"math"
 	"math/rand"
@@ -10,6 +9,8 @@ import (
 	"strconv"
 	"strings"
 	"time"
+
+	"golang.org/x/crypto/bcrypt"
 )
 
 const (
@@ -21,6 +22,9 @@ const (
 
 // CstHour 东八区
 const CstHour int64 = 8 * 3600
+
+const TimeLayout = "2006-01-02 15:04:05"
+const DateLayout = "2006-01-02"
 
 // GeneratePassword 生成密码
 // @param string password 明文密码
@@ -150,4 +154,24 @@ func FileSizeFormat(fileSize uint64) string {
 		return fmt.Sprintf("%.2f", size/math.Pow(byteNum, 3)) + "GB"
 	}
 	return fmt.Sprintf("%.2f", size/math.Pow(byteNum, 4)) + "TB"
+}
+
+// FindIds 查找整形ID
+func FindIds(id uint64, ids []uint64) bool {
+	for _, l := range ids {
+		if id == l {
+			return true
+		}
+	}
+	return false
+}
+
+// FindStringIds 查找分布式ID
+func FindStringIds(id string, ids []string) bool {
+	for _, l := range ids {
+		if id == l {
+			return true
+		}
+	}
+	return false
 }
