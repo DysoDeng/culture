@@ -1,6 +1,10 @@
 package message
 
-import "strings"
+import (
+	"strings"
+
+	"github.com/pkg/errors"
+)
 
 // ErrorMessage 错误信息类型
 type ErrorMessage string
@@ -8,6 +12,11 @@ type ErrorMessage string
 // String
 func (em ErrorMessage) String() string {
 	return string(em)
+}
+
+// Error
+func (em ErrorMessage) Error() error {
+	return errors.New(em.String())
 }
 
 // Param 参数设置
