@@ -5,15 +5,15 @@ import (
 	"culture/cloud/base/server/rpc/proto"
 	"culture/cloud/base/server/rpc/service"
 
-	"github.com/dysodeng/drpc"
-	"github.com/dysodeng/drpc/register"
+	auxrpc "github.com/dysodeng/aux-rpc"
+	"github.com/dysodeng/aux-rpc/registry"
 	"github.com/rcrowley/go-metrics"
 )
 
 // Server grpc server
-func Server(ip string, rpcPort string) *drpc.Server {
+func Server(ip string, rpcPort string) *auxrpc.Server {
 	// grpc server
-	rpcServer := drpc.NewServer(&register.EtcdV3Register{
+	rpcServer := auxrpc.NewServer(&registry.EtcdV3Registry{
 		ServiceAddress: ip + ":" + rpcPort,
 		EtcdServers:    []string{config.Config.Etcd.Addr + ":" + config.Config.Etcd.Port},
 		BasePath:       config.RpcPrefix,

@@ -2,7 +2,7 @@ package middleware
 
 import (
 	"culture/cloud/base/internal/support/api"
-	"culture/cloud/base/internal/support/util"
+	"culture/cloud/base/internal/support/rpc"
 	"culture/cloud/base/server/rpc/proto/auth"
 	"net/http"
 
@@ -19,15 +19,9 @@ func TokenAuth(ctx *gin.Context) {
 		return
 	}
 
-	rpcCtx, rpcCancel, rpcDiscovery, err := util.RpcDiscovery(3)
-	if err != nil {
-		ctx.JSON(http.StatusOK, api.Fail(err.Error(), api.CodeFail))
-		return
-	}
-	//defer rpcDiscovery.Close()
+	rpcCtx, rpcCancel, conn := rpc.Discovery("Passport/AuthService", 3)
 	defer rpcCancel()
 
-	conn := rpcDiscovery.Conn("Passport/AuthService")
 	authService := auth.NewAuthClient(conn)
 	res, err := authService.ValidToken(rpcCtx, &auth.TokenRequest{Token: tokenString})
 	if err != nil {
@@ -75,15 +69,9 @@ func NotTokenAuth(ctx *gin.Context) {
 	if tokenString == "" {
 		ctx.Next()
 	} else {
-		rpcCtx, rpcCancel, rpcDiscovery, err := util.RpcDiscovery(3)
-		if err != nil {
-			ctx.JSON(http.StatusOK, api.Fail(err.Error(), api.CodeFail))
-			return
-		}
-		//defer rpcDiscovery.Close()
+		rpcCtx, rpcCancel, conn := rpc.Discovery("Passport/AuthService", 3)
 		defer rpcCancel()
 
-		conn := rpcDiscovery.Conn("Passport/AuthService")
 		authService := auth.NewAuthClient(conn)
 		res, err := authService.ValidNotToken(rpcCtx, &auth.TokenRequest{Token: tokenString})
 		if err != nil {
